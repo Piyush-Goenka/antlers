@@ -40,7 +40,7 @@ end
 ```ruby
 def render
   <html>
-    <{ LayoutNode: username=@user.username }>
+    <{ LayoutNode: }>
       <{ UserNode user=@user }>
     <{ :LayoutNode }>
   </html>
@@ -50,10 +50,10 @@ end
 The `LayoutNode` would look like:
 ```ruby
 class LayoutNode
-  def render(event:, **props)
-    <header>Site Name</header>
+  def render(event:)
+    <header>...</header>
     <{ :slot }>
-    <footer>More Info</footer>
+    <footer>...</footer>
   end
 end
 ```
@@ -80,9 +80,6 @@ end
 
 # Directive.
 <{ UserNode user=user for: user in: @users }>
-
-# Directive with simplified prop.
-<{ UserNode user for: user in: @users }>
 ```
 
 ## Config [UNRELEASED]
@@ -132,6 +129,46 @@ def render
 end
 ```
 ℹ️ **Translatable:** Text entered this way will be easy to translate in future based on region or language. [UNRELEASED]
+
+## Full Examples
+
+### Slot
+
+```ruby
+class UserNode < LowNode
+  def initialize
+    @user = User.new(username: "Random User", bio: "I'm a person!")
+  end
+  
+  def render
+    <html>
+      <{ LayoutNode: title=@user.username }>
+        {@user.bio}
+      <{ :LayoutNode }>
+    </html>
+  end
+end
+```
+
+The `LayoutNode` would look like:
+```ruby
+class LayoutNode
+  def render(event:, title:)
+    <header>...</header>
+    <h1>{title}</h1>
+    <{ :slot }>
+    <footer>...</footer>
+  end
+end
+```
+
+The result would be:
+```HTML
+<header>...</header>
+<h1>Random User</h1>
+<p>I'm a person!</p>
+<footer>...</footer>
+```
 
 ## API
 
