@@ -1,8 +1,10 @@
-<a href="https://rubygems.org/gems/antlers" title="Install gem"><img src="https://badge.fury.io/rb/antlers.svg" alt="Gem version" height="18"></a>
+<p align="center"><img src="assets/logo/Antlers.svg" alt="Antlers logo" height="200"/></p>
 
 # Antlers
 
-`<{ Antlers }>` is a templating language designed to be embedded within HTML, where that HTML itself is embedded within a Ruby file.
+<a href="https://rubygems.org/gems/antlers" title="Install gem"><img src="https://badge.fury.io/rb/antlers.svg" alt="Gem version" height="18"></a>
+
+Antlers is a templating language designed to be embedded within HTML, where that HTML itself is embedded within a Ruby file.
 This gives Antlers access to the class it's embedded in at runtime where it can perform additional logic.
 
 Antlers is used by [LowNode](https://github.com/low-rb/low_node) to render child nodes in a compositional way.
