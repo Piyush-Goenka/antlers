@@ -93,14 +93,10 @@ Add parallelism where it makes sense and you can measure the performance outcome
 **Per sibling:**
 ```ruby
 def render
+  # Both child nodes executed at the same time.
   <{ parallelize: }>
-    # For Loop executed at the same time as UserNode.
-    <{ for: user in: @users }>
-      <{ UserNode user=user }>
-    <{ :for }>
-
-    # PostsNode executed at the same time as For Loop.
-    <{ PostsNode }>
+    <{ UserNode user=@user }>
+    <{ PostsNode posts=@posts }>
   <{ :parallelize }>
 end
 ```
@@ -109,10 +105,12 @@ end
 
 **Per block:**
 ```ruby
-# Each UserNode rendered at the same time.
-<{ map: user in: @users :parallelize }>
-  <{ UserNode user=user }>
-<{ :map }>
+def render
+  # Each UserNode rendered at the same time.
+  <{ map: user in: @users :parallelize }>
+    <{ UserNode user=user }>
+  <{ :map }>
+end
 ```
 
 **Per directive:**
