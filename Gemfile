@@ -11,8 +11,7 @@ group :development do
   gem 'lowkey', path: '../lowkey'
   gem 'lowload', path: '../lowload'
 
-  gem 'pry'
-  gem 'pry-nav'
+  gem 'irb'
   gem 'rake'
   gem 'rspec'
   gem 'rubocop'
