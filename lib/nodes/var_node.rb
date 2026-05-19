@@ -31,10 +31,7 @@ module Antlers
         return current_binding.receiver.send(@value.to_sym) if current_binding.receiver.respond_to?(@value.to_sym)
       end
 
-      @value
-    rescue NameError => e
-      # TODO: Must be a better way to handle variables input as literal strings.
-      @value
+      @value.to_s
     end
   end
 end
