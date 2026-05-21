@@ -3,8 +3,6 @@
 require_relative 'lexer'
 require_relative 'parser'
 
-require 'low_event'
-
 module Antlers
   class << self
     def parse(template)

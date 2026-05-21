@@ -9,7 +9,7 @@ module Antlers
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
       props = evaluate_props(props: @props, current_binding:)
-      event = create_event(props:)
+      event = create_render_event(props:)
 
       klass = class_from_namespace(namespace: namespace&.split('::') || [], name: @name)
       instance = klass.new(event:)

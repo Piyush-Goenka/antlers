@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'low_event'
+
 module Antlers
   module Props
     attr_accessor :props
@@ -12,7 +14,7 @@ module Antlers
 
     private
 
-    def create_event(props:)
+    def create_render_event(props:)
       Low::Events::RenderEvent.new(action: :render, props:)
     end
 
