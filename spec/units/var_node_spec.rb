@@ -7,6 +7,13 @@ class MockVarClass
     @ivar = "Instance Variable"
   end
 
+  # NOTE: Currently not in use.
+  # TODO: Support Ruby code followed by Antlers code in a render method via LowNode/LowLoad, thus setting up a local variable.
+  def local_var
+    var = "Local Variable"
+    binding
+  end
+
   def method_call
     "Method Call"
   end
@@ -25,6 +32,14 @@ RSpec.describe Antlers::VarNode do
 
       it 'evaluates an instance variable' do
         expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq("Instance Variable")
+      end
+    end
+
+    context 'with a local variable' do
+      subject(:var_node) { described_class.new(value: "var") }
+
+      it 'evaluates a local variable' do
+        expect(var_node.render(current_binding: mock_instance.local_var)).to eq("Local Variable")
       end
     end
 

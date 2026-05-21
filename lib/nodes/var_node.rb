@@ -21,8 +21,8 @@ module Antlers
     private
 
     # A variable is deliberately limited in what it can represent.
-    #  1. An instance/local variable
-    #  2. A method call
+    #  1. An instance variable
+    #  2. A method call/local variable
     #  3. A static string
     def evaluate_value(current_binding)
       if current_binding
