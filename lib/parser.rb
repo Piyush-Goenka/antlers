@@ -7,33 +7,36 @@ module Antlers
   module Parser
     class << self
       def parse(sequence, id: :root_node)
-        branch(branch_node: RootNode.new(name: id), sequence:)
+        branch(node: RootNode.new(name: id), sequence:)
       end
 
-      def branch(branch_node:, sequence:) # rubocop:disable Metrics/AbcSize
+      def branch(node:, sequence:) # rubocop:disable Metrics/AbcSize
         until sequence.empty?
           segment = sequence.shift
 
           if segment.is_a?(String)
-            branch_node.children << segment
+            node.children << segment
           elsif segment[:var]
-            branch_node.children << NodeFactory.var_node(segment:)
+            node.children << NodeFactory.var_node(segment:)
           elsif segment[:prop]
-            branch_node.children << NodeFactory.prop_node(segment:)
+            node.children << NodeFactory.prop_node(segment:)
           elsif segment[:slot]
-            branch_node.children << NodeFactory.yield_node(segment:)
+            node.children << NodeFactory.yield_node(segment:)
           elsif segment[:slot_def]
             slot_node = NodeFactory.slot_node(segment:)
-            branch_node.children << slot_node
-
-            sub_sequence = []
-            sub_sequence << sequence.shift until sequence.first.is_a?(Hash) && sequence.first[:slot_end] == slot_node.name
-
-            branch(branch_node: slot_node, sequence: sub_sequence)
+            node.children << slot_node
+            sub_branch(node: slot_node, sequence:, end_key: :slot_end, end_name: slot_node.name)
           end
         end
 
-        branch_node
+        node
+      end
+
+      def sub_branch(node:, sequence:, end_key:, end_name: nil)
+        sub_sequence = []
+        sub_sequence << sequence.shift until sequence.first.is_a?(Hash) && sequence.first[end_key] == end_name
+
+        branch(node:, sequence: sub_sequence)
       end
     end
   end
