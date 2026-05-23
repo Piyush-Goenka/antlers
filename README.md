@@ -72,7 +72,7 @@ end
 <{ UserNode user=@user if: @user.happy? }>
 ```
 
-### Loops [UNRELEASED]
+### Loops
 
 ```ruby
 # Block.
