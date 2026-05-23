@@ -3,9 +3,12 @@
 require 'erb'
 
 require_relative '../interfaces/leaf_node'
+require_relative '../modules/variables'
 
 module Antlers
   class VarNode < LeafNode
+    include Variables
+
     attr_reader :value
 
     def initialize(name: :var, value:)
@@ -15,23 +18,7 @@ module Antlers
     end
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
-      ERB::Util.html_escape(evaluate_value(current_binding))
-    end
-
-    private
-
-    # A variable is deliberately limited in what it can represent.
-    #  1. An instance variable
-    #  2. A method call/local variable
-    #  3. A static string
-    def evaluate_value(current_binding)
-      if current_binding
-        return current_binding.receiver.instance_variable_get(@value) if @value.start_with?('@')
-        return current_binding.local_variable_get(@value) if current_binding.local_variable_defined?(@value)
-        return current_binding.receiver.send(@value.to_sym) if current_binding.receiver.respond_to?(@value.to_sym)
-      end
-
-      @value.to_s
+      ERB::Util.html_escape(evaluate_variable(name: @value, current_binding:) || @value)
     end
   end
 end
