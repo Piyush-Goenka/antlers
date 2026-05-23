@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/parser'
+require_relative '../lib/nodes/for_node'
 require_relative '../lib/nodes/prop_node'
 require_relative '../lib/nodes/root_node'
 require_relative '../lib/nodes/slot_node'
@@ -59,6 +60,20 @@ RSpec.describe Antlers::Parser do
         it 'returns AST' do
           expect(parser.parse(sequence).children).to eq(ast)
         end
+      end
+    end
+
+    context 'with for loop' do
+      let(:sequence) do
+        [{ for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }]
+      end
+
+      let(:for_node) do
+        Antlers::ForNode.new(name: 'ForNode', item: 'item', items: 'items', children: [var_node])
+      end
+
+      it 'returns AST' do
+        expect(parser.parse(sequence).children).to eq([for_node])
       end
     end
 
