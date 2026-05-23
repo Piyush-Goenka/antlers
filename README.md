@@ -172,7 +172,7 @@ The result would be:
 
 ## API
 
-### `Antlers.parse(template)`
+### `Antlers.ast(template)`
 
 Parse the Antlers template into an Abstract Syntax tree.
 

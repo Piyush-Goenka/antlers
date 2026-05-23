@@ -5,7 +5,7 @@ require_relative 'parser'
 
 module Antlers
   class << self
-    def parse(template)
+    def ast(template)
       return template unless template.include?('<{') || template.include?('{')
 
       lexemes = Lexer.new.parse(template)
