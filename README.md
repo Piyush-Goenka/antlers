@@ -84,6 +84,8 @@ end
 <{ UserNode user=user for: user in: @users }>
 ```
 
+ℹ️ Iterate a hash with `for: key, value` instead of `for: value` syntax. [UNRELEASED]
+
 ## Config [UNRELEASED]
 
 ### Enabling parallelism
