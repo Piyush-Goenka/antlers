@@ -4,7 +4,7 @@ module Antlers
   module Queries
     class << self
       def user_defined_string?(string)
-        wrapped_in?(string, %q{'}) || wrapped_in?(string, %q{"})
+        wrapped_in?(string, "'") || wrapped_in?(string, '"')
       end
 
       def wrapped_in?(string, delimeter)

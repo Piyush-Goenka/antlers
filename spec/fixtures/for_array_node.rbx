@@ -3,7 +3,7 @@
 require 'low_node'
 
 module RBX
-  class ForNode < LowNode
+  class ForArrayNode < LowNode
     def initialize(event:)
       @items = [1, 2, 3]
     end

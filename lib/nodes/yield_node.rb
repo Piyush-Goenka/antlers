@@ -14,7 +14,11 @@ module Antlers
 
       slot_node.children.each do |child|
         # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.
-        output += (child.respond_to?(:render) ? child.render(current_binding: parent_binding, parent_binding: nil, slot_node: nil, namespace:) : child) || ''
+        if child.respond_to?(:render) # rubocop:disable Style/ConditionalAssignment
+          output += child.render(current_binding: parent_binding, parent_binding: nil, slot_node: nil, namespace:)
+        else
+          output += child || ''
+        end
       end
 
       output

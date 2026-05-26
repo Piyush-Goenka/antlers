@@ -11,18 +11,22 @@ module Antlers
 
     attr_accessor :children
 
-    def initialize(name:, item:, items:, props: [], children: [])
+    def initialize(name:, items:, value:, key: nil, props: [], children: [])
       super(name:, props:, children:)
 
-      @item = item
       @items = items
+      @value = value
+      @key = key
     end
 
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
       output = ''
 
-      evaluate_variable(name: @items, current_binding:).each do |item|
-        current_binding.local_variable_set(@item, item)
+      evaluate_variable(name: @items, current_binding:).each do |value|
+        key, value = value if @key
+
+        current_binding.local_variable_set(@value, value)
+        current_binding.local_variable_set(@key, key) if @key
 
         @children.each do |child|
           # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.

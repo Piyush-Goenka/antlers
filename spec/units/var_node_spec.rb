@@ -4,18 +4,18 @@ require_relative '../../lib/nodes/var_node'
 
 class MockVarClass
   def initialize
-    @ivar = "Instance Variable"
+    @ivar = 'Instance Variable'
   end
 
   # NOTE: Currently not in use.
   # TODO: Support Ruby code followed by Antlers code in a render method via LowNode/LowLoad, thus setting up a local variable.
   def local_var
-    var = "Local Variable"
+    var = 'Local Variable'
     binding
   end
 
   def method_call
-    "Method Call"
+    'Method Call'
   end
 
   def instance_binding
@@ -28,26 +28,26 @@ RSpec.describe Antlers::VarNode do
 
   describe '#render' do
     context 'with an instance variable' do
-      subject(:var_node) { described_class.new(value: "@ivar") }
+      subject(:var_node) { described_class.new(value: '@ivar') }
 
       it 'evaluates an instance variable' do
-        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq("Instance Variable")
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('Instance Variable')
       end
     end
 
     context 'with a local variable' do
-      subject(:var_node) { described_class.new(value: "var") }
+      subject(:var_node) { described_class.new(value: 'var') }
 
       it 'evaluates a local variable' do
-        expect(var_node.render(current_binding: mock_instance.local_var)).to eq("Local Variable")
+        expect(var_node.render(current_binding: mock_instance.local_var)).to eq('Local Variable')
       end
     end
 
     context 'with a method call' do
-      subject(:var_node) { described_class.new(value: "method_call") }
+      subject(:var_node) { described_class.new(value: 'method_call') }
 
       it 'evaluates a method call' do
-        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq("Method Call")
+        expect(var_node.render(current_binding: mock_instance.instance_binding)).to eq('Method Call')
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe Antlers::VarNode do
       subject(:var_node) { described_class.new(value: "I'm just a string") }
 
       it 'evaluates a string' do
-        expect(var_node.render).to eq("I&#39;m just a string")
+        expect(var_node.render).to eq('I&#39;m just a string')
       end
     end
   end

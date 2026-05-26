@@ -40,7 +40,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq([{ var: "@ivar" }])
+        expect(lexer.parse(template)).to eq([{ var: '@ivar' }])
       end
     end
 
@@ -85,18 +85,36 @@ RSpec.describe Antlers::Lexer do
     context 'with a for node' do
       let(:template) do
         <<~RUBY
-          <{ for: item in: items }>
-            {item}
+          <{ for: value in: array }>
+            {value}
           <{ :for }>
         RUBY
       end
 
       let(:sequence) do
-        [{ for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }]
+        [{ for_def: 'value', in: 'array' }, { var: 'value' }, { for_end: 'level_1' }]
       end
 
       it 'returns sequence' do
         expect(lexer.parse(template)).to eq(sequence)
+      end
+
+      context 'with a hash' do
+        let(:template) do
+          <<~RUBY
+            <{ for: key, value in: hash }>
+              {item}
+            <{ :for }>
+          RUBY
+        end
+
+        let(:sequence) do
+          [{ for_def: 'value', key: 'key', in: 'hash' }, { var: 'item' }, { for_end: 'level_1' }]
+        end
+
+        it 'returns sequence' do
+          expect(lexer.parse(template)).to eq(sequence)
+        end
       end
 
       context 'when wrapped in HTML' do
