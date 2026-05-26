@@ -120,6 +120,14 @@ end
 <{ UserNode user=user for: user in: @users :parallelize }>
 ```
 
+## Syntax
+
+Antlers uses two different sets of start/stop characters:
+- 🦌 **Deerheads:** `<{`/`}>`
+- 🖇 **Brackets:** `{`/`}`
+
+Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`). You can output variables with `<{ @instance_var }>` and `<{ local_var }>` Deerhead syntax too. The `{`/`}` syntax is provided as a convenience as it's shorter and easier to type.
+
 ## Advanced Techniques
 
 ### Strings
@@ -130,7 +138,7 @@ def render
   <html>{"I'm just a string"}</html>
 end
 ```
-ℹ️ **Translatable:** Text entered this way will be easy to translate in future based on region or language. [UNRELEASED]
+ℹ️ **Translations:** Text entered this way will be easy to translate in future based on region, language or any arbitrary condition. [UNRELEASED]
 
 ## Full Examples
 
