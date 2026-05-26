@@ -10,7 +10,7 @@ module Antlers
   class Lexer
     def initialize
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = ['if:', 'for:', 'in:', 'slot:', ':slot']
+      @keywords = ['if:', 'for:', 'in:', ':for', 'slot:', ':slot']
       @cursor = 0
     end
 
@@ -54,20 +54,25 @@ module Antlers
       return slot_yield if slot_yield?(keywords)
       return slot(name:, props:) if slot?(name)
       return prop(name:, props:) if prop?(name)
+      return for_loop(keywords:) if for_loop?(keywords:)
 
-      raise LexerParseError, "Couldn't parse antlers syntax: '#{antlers_segment}'"
+      raise LexerParseError, "Unrecognised syntax: '#{antlers_segment}'"
     end
 
     def parse_segment(antlers_segment:)
       name_and_props, *keywords = antlers_segment.split(/(#{Regexp.union(@keywords)})/)
       name, *props = name_and_props.split(' ')
 
-      [name, props, keywords]
+      [name, props, keywords.map(&:strip)]
     end
 
     def var?(segments:)
       first, middle, last = segments[@cursor..@cursor + 3].map(&:strip)
       first == '{' && last == '}'
+    end
+
+    def for_loop?(keywords:)
+      keywords.first == 'for:' || keywords.first == ':for'
     end
 
     def slot?(name)
@@ -89,6 +94,19 @@ module Antlers
       end
 
       { var: antlers_segment }
+    end
+
+    def for_loop(keywords:)
+      key_values = keywords.count % 2 == 0 ? keywords.each_slice(2).to_h : {}
+
+      if key_values['for:']
+        for_def = { for_def: key_values['for:'] }
+        for_def[:in] = key_values['in:']
+        return for_def
+      end
+
+      # TODO: Keep track of which for loop we're in to allow nested for loops.
+      { for_end: 'level_1' }
     end
 
     def slot(name:, props:)

@@ -72,7 +72,7 @@ end
 <{ UserNode user=@user if: @user.happy? }>
 ```
 
-### Loops [UNRELEASED]
+### Loops
 
 ```ruby
 # Block.
@@ -83,6 +83,8 @@ end
 # Directive.
 <{ UserNode user=user for: user in: @users }>
 ```
+
+ℹ️ Iterate a hash with `for: key, value` instead of `for: value` syntax. [UNRELEASED]
 
 ## Config [UNRELEASED]
 
@@ -172,7 +174,7 @@ The result would be:
 
 ## API
 
-### `Antlers.parse(template)`
+### `Antlers.ast(template)`
 
 Parse the Antlers template into an Abstract Syntax tree.
 

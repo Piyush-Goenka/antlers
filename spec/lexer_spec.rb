@@ -82,6 +82,44 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
+    context 'with a for node' do
+      let(:template) do
+        <<~RUBY
+          <{ for: item in: items }>
+            {item}
+          <{ :for }>
+        RUBY
+      end
+
+      let(:sequence) do
+        [{ for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }]
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq(sequence)
+      end
+
+      context 'when wrapped in HTML' do
+        let(:template) do
+          <<~RUBY
+            <html>
+              <{ for: item in: items }>
+                {item}
+              <{ :for }>
+            </html>
+          RUBY
+        end
+
+        let(:sequence) do
+          ['<html>', { for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }, '</html>']
+        end
+
+        it 'returns sequence' do
+          expect(lexer.parse(template)).to eq(sequence)
+        end
+      end
+    end
+
     context 'with a slot node' do
       let(:template) do
         <<~RUBY

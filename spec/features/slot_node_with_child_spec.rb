@@ -5,7 +5,6 @@ require 'low_node'
 
 require_relative '../../lib/nodes/prop_node'
 require_relative '../../lib/nodes/slot_node'
-require_relative '../fixtures/low_node'
 
 LowLoad.lowload('spec/fixtures/slot_node_with_child.rbx')
 LowLoad.lowload('spec/fixtures/prop_node_var.rbx')

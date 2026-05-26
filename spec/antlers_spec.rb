@@ -5,13 +5,13 @@ require_relative '../lib/antlers'
 RSpec.describe Antlers do
   subject(:antlers) { described_class }
 
-  describe '.parse' do
+  describe '.ast' do
     before do
       allow(Antlers::Parser).to receive(:parse)
     end
 
-    it 'call parser' do
-      Antlers.parse('<{ MockNode }>')
+    it 'calls parser' do
+      Antlers.ast('<{ MockNode }>')
 
       expect(Antlers::Parser).to have_received(:parse)
     end
