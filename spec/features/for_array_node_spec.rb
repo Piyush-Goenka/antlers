@@ -12,8 +12,8 @@ RSpec.describe RBX::ForArrayNode do
 
   let(:event) { 'mock event' }
 
-  describe '<{ for: item in: @items }>' do
-    it 'renders items' do
+  describe '<{ for: value in: @items }>' do
+    it 'renders value' do
       expect(RBX::ForArrayNode.render(event:).response.body.read).to eq(
         <<~HTML.delete(" \n")
           <ul>

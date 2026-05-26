@@ -100,8 +100,9 @@ module Antlers
       key_values = keywords.count % 2 == 0 ? keywords.each_slice(2).to_h : {}
 
       if key_values['for:']
-        for_def = { for_def: key_values['for:'] }
-        for_def[:in] = key_values['in:']
+        *key, value = key_values['for:'].split(',').map(&:strip)
+        for_def = { for_def: value, in: key_values['in:']}
+        for_def[:key] = key.first unless key.empty?
         return for_def
       end
 

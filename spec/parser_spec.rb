@@ -65,15 +65,29 @@ RSpec.describe Antlers::Parser do
 
     context 'with for loop' do
       let(:sequence) do
-        [{ for_def: 'item', in: 'items' }, { var: 'item' }, { for_end: 'level_1' }]
+        [{ for_def: 'value', in: 'items' }, { var: 'value' }, { for_end: 'level_1' }]
       end
 
       let(:for_node) do
-        Antlers::ForNode.new(name: 'ForNode', item: 'item', items: 'items', children: [var_node])
+        Antlers::ForNode.new(name: 'ForNode', value: 'value', items: 'items', children: [var_node])
       end
 
       it 'returns AST' do
         expect(parser.parse(sequence).children).to eq([for_node])
+      end
+
+      context 'with hash' do
+        let(:sequence) do
+          [{ for_def: 'value', key: 'key', in: 'hash' }, { var: 'item' }, { for_end: 'level_1' }]
+        end
+
+        let(:for_node) do
+          Antlers::ForNode.new(name: 'ForNode', key: 'key', value: 'item', items: 'items', children: [var_node])
+        end
+
+        it 'returns AST' do
+          expect(parser.parse(sequence).children).to eq([for_node])
+        end
       end
     end
 

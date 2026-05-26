@@ -10,7 +10,8 @@ module Antlers
   class NodeFactory
     class << self
       def for_node(segment:)
-        ForNode.new(name: segment[:for_def], item: segment[:for_def], items: segment[:in])
+        value, key, items = segment.values_at(:for_def, :key, :in)
+        ForNode.new(name: value, key:, value:, items:)
       end
 
       def prop_node(segment:)
