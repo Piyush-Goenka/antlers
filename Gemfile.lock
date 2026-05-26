@@ -97,6 +97,7 @@ GEM
       lowkey (~> 0.4)
     metrics (0.15.0)
     observers (0.7.0)
+    ostruct (0.6.3)
     paint (2.3.0)
     parallel (2.1.0)
     parser (3.3.11.1)
@@ -175,6 +176,7 @@ DEPENDENCIES
   low_node!
   lowkey!
   lowload!
+  ostruct
   rake
   rspec
   rubocop

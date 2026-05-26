@@ -12,6 +12,7 @@ group :development do
   gem 'low_node', path: '../low_node'
 
   gem 'irb'
+  gem 'ostruct'
   gem 'rake'
   gem 'rspec'
   gem 'rubocop'
