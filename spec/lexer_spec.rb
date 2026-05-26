@@ -40,7 +40,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq([{ var: "@ivar" }])
+        expect(lexer.parse(template)).to eq([{ var: '@ivar' }])
       end
     end
 

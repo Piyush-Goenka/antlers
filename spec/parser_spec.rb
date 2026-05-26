@@ -28,7 +28,7 @@ RSpec.describe Antlers::Parser do
 
     context 'with instance variable' do
       it 'returns AST' do
-        expect(parser.parse([{ var: "@ivar" }]).children).to eq([Antlers::VarNode.new(value: "@ivar")])
+        expect(parser.parse([{ var: '@ivar' }]).children).to eq([Antlers::VarNode.new(value: '@ivar')])
       end
     end
 

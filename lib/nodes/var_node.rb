@@ -11,7 +11,7 @@ module Antlers
 
     attr_reader :value
 
-    def initialize(name: :var, value:)
+    def initialize(value:, name: :var)
       super(name:)
 
       @value = value

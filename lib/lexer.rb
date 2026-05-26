@@ -67,12 +67,12 @@ module Antlers
     end
 
     def var?(segments:)
-      first, middle, last = segments[@cursor..@cursor + 3].map(&:strip)
+      first, _, last = segments[@cursor..@cursor + 3].map(&:strip)
       first == '{' && last == '}'
     end
 
     def for_loop?(keywords:)
-      keywords.first == 'for:' || keywords.first == ':for'
+      ['for:', ':for'].include?(keywords.first)
     end
 
     def slot?(name)
@@ -89,19 +89,17 @@ module Antlers
 
     def var(antlers_segment:)
       # String is already interpolated or not depending on user input on the template layer, now we store it without those template quotes.
-      if Queries.user_defined_string?(antlers_segment)
-        antlers_segment = antlers_segment[1..-2]
-      end
+      antlers_segment = antlers_segment[1..-2] if Queries.user_defined_string?(antlers_segment)
 
       { var: antlers_segment }
     end
 
     def for_loop(keywords:)
-      key_values = keywords.count % 2 == 0 ? keywords.each_slice(2).to_h : {}
+      key_values = keywords.count.even? ? keywords.each_slice(2).to_h : {}
 
       if key_values['for:']
         *key, value = key_values['for:'].split(',').map(&:strip)
-        for_def = { for_def: value, in: key_values['in:']}
+        for_def = { for_def: value, in: key_values['in:'] }
         for_def[:key] = key.first unless key.empty?
         return for_def
       end
