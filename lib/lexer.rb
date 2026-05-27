@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'queries'
+require_relative 'support/queries'
 
 module Antlers
   extend Queries
