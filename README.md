@@ -19,6 +19,7 @@ def render
   <html>{@user}</html>
 end
 ```
+ℹ️ See [Variables API](#api).
 
 ### Components
 
@@ -126,7 +127,7 @@ Antlers uses two different sets of start/stop characters:
 - 🦌 **Deerheads:** `<{`/`}>`
 - 🖇 **Brackets:** `{`/`}`
 
-Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`). You can output variables with `<{ @instance_var }>` and `<{ local_var }>` Deerhead syntax too. The `{`/`}` syntax is provided as a convenience as it's shorter and easier to type.
+Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`). You can output variables with the `<{ @instance_var }>` and `<{ local_var }>` Deerhead syntax too. The `{}` syntax is provided as a convenience as it's shorter and easier to type.
 
 ## Advanced Techniques
 
@@ -184,7 +185,7 @@ The result would be:
 
 ### `Antlers.ast(template)`
 
-Parse the Antlers template into an Abstract Syntax tree.
+Parse the Antlers template into an Abstract Syntax Tree.
 
 ### `Antlers.render(ast:, current_binding:)`
 
@@ -193,6 +194,14 @@ Render the AST and evaluate variables in the supplied binding.
 **Optional arguments:**
 - `parent_binding: nil` - For rendering a `<{ :slot }>` in a child component
 - `namespace: nil` - The original namespace that the template was defined in
+
+### Variables
+
+Variables `{}` can evaluate the following:
+1. An instance variable: `{ @instance_variable }`
+2. A method call/local variable: `{ method_or_variable}`
+3. A method chain: `{ method_one.method_two }`
+4. A static string: `{"Static String"}`
 
 ## Architecture
 
@@ -230,5 +239,5 @@ sequenceDiagram
 
 ## Philosophy
 
-- **#️⃣ Syntax.** Antlers syntax looks like Ruby in order to get syntax highlighting out of the box.
-- **⏳ Future.** Antlers should parallelize immutable data structures automatically [GOAL], see [LowNode](https://github.com/low-rb/low_node).
+- **#️⃣ Syntax.** Antlers uses syntax from Ruby to get syntax highlighting out of the box. But it is not Ruby and is designed to limit you to a templating language, with business logic computed in the nodes that render Antlers
+- **⏳ Paralellization.** Make paralellization easy by abstracting Ractors and creating immutable data structures on the user's behalf
