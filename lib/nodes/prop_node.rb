@@ -12,7 +12,10 @@ module Antlers
       event = create_render_event(props:)
 
       renderable_klass = class_from_namespace(namespace: namespace&.split('::') || [], name: @name)
-      renderable_instance = renderable_klass.new(event:)
+      # TODO: There's currently 2 results for "Lowkey[renderable_klass.to_s]", this should not be.
+      # TODO: Only provide args that are defined, similar to how render_template does it.
+      initialize_method = Lowkey[renderable_klass.to_s].first[renderable_klass.to_s][:initialize]
+      renderable_instance = initialize_method ? renderable_klass.new(event:, **props) : renderable_klass.new(event:)
 
       # Classes referenced via "<{ ChildNode }>" must implement class/instance render/render_template methods (See LowNode).
       return renderable_instance.render_template(event:, parent_binding:, props:) if renderable_klass.template
