@@ -84,7 +84,7 @@ end
 <{ UserNode user=user for: user in: @users }>
 ```
 
-ℹ️ Iterate a hash with `for: key, value` instead of `for: value` syntax. [UNRELEASED]
+ℹ️ You can iterate a hash with `for: key, value` syntax.
 
 ## Config [UNRELEASED]
 
