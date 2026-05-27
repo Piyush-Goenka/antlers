@@ -25,11 +25,13 @@ module Antlers
       return current_binding.receiver.instance_variable_get(name) if name.start_with?('@')
       return current_binding.local_variable_get(name) if current_binding.local_variable_defined?(name)
       return current_binding.receiver.send(name.to_sym) if current_binding.receiver.respond_to?(name.to_sym)
+
+      nil
     end
 
     def method_chain(result:, chain:, current_binding:)
       chain.reduce(result) do |result, method_call|
-        result = result.send(method_call.to_sym)
+        result.send(method_call.to_sym)
       end
     end
   end
