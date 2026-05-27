@@ -1,7 +1,7 @@
 PATH
   remote: ../low_event
   specs:
-    low_event (0.6.0)
+    low_event (0.7.0)
       low_type (~> 1.0)
       observers
       protocol-http
@@ -10,7 +10,7 @@ PATH
 PATH
   remote: ../low_node
   specs:
-    low_node (0.2.2)
+    low_node (0.3.0)
       antlers
       low_event
       low_loop
@@ -32,7 +32,7 @@ PATH
 PATH
   remote: .
   specs:
-    antlers (0.4.0)
+    antlers (0.5.0)
       erb
       low_event
 
