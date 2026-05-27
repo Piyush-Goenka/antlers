@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require 'low_event'
+require_relative 'variables'
 
 module Antlers
   module Props
+    include Variables
+
     attr_accessor :props
 
     def initialize(name:, props: {}, **)
@@ -24,13 +27,7 @@ module Antlers
       evaluated_props = {}
 
       props.each do |name, value|
-        receiver = current_binding.receiver
-
-        if receiver.respond_to?(value.to_sym)
-          evaluated_props[name] = receiver.send(value.to_sym)
-        elsif value.start_with?('@')
-          evaluated_props[name] = receiver.instance_variable_get(value)
-        end
+        evaluated_props[name] = evaluate(name: value, current_binding:)
       end
 
       evaluated_props

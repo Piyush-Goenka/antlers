@@ -22,9 +22,10 @@ module Antlers
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
       output = ''
 
-      evaluate_variable(name: @items, current_binding:).each do |value|
+      evaluate(name: @items, current_binding:).each do |value|
         key, value = value if @key
 
+        # TODO: Parallelize by creating new bindings and ensuring children have any args they need via RenderEvent.
         current_binding.local_variable_set(@value, value)
         current_binding.local_variable_set(@key, key) if @key
 
