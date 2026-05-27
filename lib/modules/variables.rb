@@ -1,12 +1,16 @@
+require_relative '../support/queries'
+
 module Antlers
   module Variables
+    extend Queries
+
     # Evaluation limited to the following for security and to prevent a templating language becoming a programming language.
     #  1. An instance variable
     #  2. A method call/local variable
     #  3. A method chain
     #  4. A static string
     def evaluate(name:, current_binding:)
-      return @value.to_s unless current_binding
+      return name.to_s unless current_binding
 
       name, *chain = name.split('.')
 
@@ -14,9 +18,15 @@ module Antlers
       return method_chain(result:, chain:, current_binding:) if chain.count > 0
       return result if result
 
-      @value.to_s
-    rescue NameError
-      @value.to_s
+      nil
+    rescue StandardError
+      nil
+    end
+
+    def fallback(value)
+      return value[1..-2] if Queries.user_defined_string?(value)
+
+      value
     end
 
     private
