@@ -22,7 +22,7 @@ module Antlers
     def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
       output = ''
 
-      evaluate_variable(name: @items, current_binding:).each do |value|
+      evaluate(name: @items, current_binding:).each do |value|
         key, value = value if @key
 
 
