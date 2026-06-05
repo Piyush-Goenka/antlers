@@ -4,10 +4,7 @@
 
 <a href="https://rubygems.org/gems/antlers" title="Install gem"><img src="https://badge.fury.io/rb/antlers.svg" alt="Gem version" height="18"></a>
 
-Antlers is a templating language designed to be embedded within HTML, where that HTML itself is embedded within a Ruby file.
-This gives Antlers access to the class it's embedded in at runtime where it can perform additional logic.
-
-Antlers is used by [LowNode](https://github.com/low-rb/low_node) to render child nodes in a compositional way.
+Antlers is a templating language designed to be embedded within HTML, where that HTML itself is embedded within a Ruby file. Antlers is used by [LowNode](https://github.com/low-rb/low_node) to render child nodes in a compositional way.
 
 ## Syntax
 
@@ -30,7 +27,7 @@ def render
 end
 ```
 
-ℹ️ The class referenced via `<{ MyClass }>` must implement a `def render(event:)` method.
+ℹ️ The class referenced via `<{ MyClass }>` syntax must implement a `render` method.
 
 **Props:**
 ```ruby
@@ -104,8 +101,6 @@ def render
 end
 ```
 
-ℹ️ The For loop in the example above still renders `PostsNode`s sequentially unless you use `map:` with a `:parallelize` directive.
-
 **Per block:**
 ```ruby
 def render
@@ -123,11 +118,11 @@ end
 
 ## Syntax
 
-Antlers uses two different sets of start/stop characters:
-- 🦌 **Deerheads:** `<{`/`}>`
-- 🖇 **Brackets:** `{`/`}`
+Antlers uses two different sets of start and stop characters:
+- 🦌 **Deerheads:** `<{` and `}>`
+- 🖇 **Brackets:** `{` and `}`
 
-Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`). You can output variables with the `<{ @instance_var }>` and `<{ local_var }>` Deerhead syntax too. The `{}` syntax is provided as a convenience as it's shorter and easier to type.
+Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`). You can output variables with the Deerhead syntax too (`<{ @instance_var }>` and `<{ local_var }>`). The `{}` brackets syntax is provided in addition for variables as it's shorter and easier to type.
 
 ## Advanced Techniques
 
@@ -200,7 +195,7 @@ Render the AST and evaluate variables in the supplied binding.
 Variables `{}` can evaluate the following:
 1. An instance variable: `{ @instance_variable }`
 2. A method call/local variable: `{ method_or_variable}`
-3. A method chain: `{ method_one.method_two }`
+3. A method chain: `{ method_or_variable.method_two }`
 4. A static string: `{"Static String"}`
 
 ## Architecture
@@ -223,7 +218,6 @@ Antlers creates an Abstract Syntax Tree composed of the following `AntlerNode`s:
 ```mermaid
 sequenceDiagram
   autonumber
-
   participant LowLoad
   participant LowNode
   participant Template
