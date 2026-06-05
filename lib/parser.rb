@@ -30,6 +30,10 @@ module Antlers
             for_node = NodeFactory.for_node(segment:)
             node.children << for_node
             sub_branch(node: for_node, sequence:, end_key: :for_end, end_name: 'level_1')
+          elsif segment[:form_def]
+            form_node = NodeFactory.form_node(segment:)
+            node.children << form_node
+            sub_branch(node: form_node, sequence:, end_key: :form_end, end_name: 'level_1')
           end
         end
 
