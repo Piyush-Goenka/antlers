@@ -138,6 +138,24 @@ RSpec.describe Antlers::Lexer do
       end
     end
 
+    context 'with a form node' do
+      let(:template) do
+        <<~RUBY
+          <{ form: '/submit' }>
+            <button>Submit</button>
+          <{ :form }>
+        RUBY
+      end
+
+      let(:sequence) do
+        [{ form_def: '/submit' }, '<button>Submit</button>', { form_end: 'level_1' }]
+      end
+
+      it 'returns sequence' do
+        expect(lexer.parse(template)).to eq(sequence)
+      end
+    end
+
     context 'with a slot node' do
       let(:template) do
         <<~RUBY

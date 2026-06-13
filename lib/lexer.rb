@@ -8,9 +8,12 @@ module Antlers
   class LexerParseError < StandardError; end
 
   class Lexer
+    FOR_KEYWORDS = ['for:', 'in:', ':for']
+    FORM_KEYWORDS = ['form:', ':form']
+
     def initialize
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = ['if:', 'for:', 'in:', ':for', 'slot:', ':slot']
+      @keywords = ['if:', *FORM_KEYWORDS, *FOR_KEYWORDS, 'slot:', ':slot']
       @cursor = 0
     end
 
@@ -55,6 +58,7 @@ module Antlers
       return slot(name:, props:) if slot?(name)
       return prop(name:, props:) if prop?(name)
       return for_loop(keywords:) if for_loop?(keywords:)
+      return form(keywords:) if form?(keywords:)
 
       raise LexerParseError, "Unrecognised syntax: '#{antlers_segment}'"
     end
@@ -70,7 +74,7 @@ module Antlers
 
       while (keyword = keywords.shift)
         keyword.strip!
-        value = keyword.end_with?(':') && value?(keywords.first) ? keywords.shift.strip : nil
+        value = keyword.end_with?(':') && value?(keywords.first.strip) ? keywords.shift.strip : nil
         key_values[keyword] = value
       end
 
@@ -81,13 +85,19 @@ module Antlers
       !(string.start_with?(':') || string.end_with?(':'))
     end
 
+    # TODO: Refactor every constant, match and result method into its own class. Loop through every class and return the first match.
+
     def var?(segments:)
       first, _, last = segments[@cursor..@cursor + 3].map(&:strip)
       first == '{' && last == '}'
     end
 
     def for_loop?(keywords:)
-      ['for:', ':for'].include?(keywords.first)
+      FOR_KEYWORDS.include?(keywords.keys.first)
+    end
+
+    def form?(keywords:)
+      FORM_KEYWORDS.include?(keywords.keys.first)
     end
 
     def slot?(name)
@@ -119,6 +129,15 @@ module Antlers
 
       # TODO: Keep track of which for loop we're in to allow nested for loops.
       { for_end: 'level_1' }
+    end
+
+    def form(keywords:)
+      if keywords.key?('form:')
+        action = keywords['form:'] && keywords['form:'] ? keywords['form:'][1...-1] : nil
+        return { form_def: action }
+      end
+
+      { form_end: 'level_1' }
     end
 
     def slot(name:, props:)
