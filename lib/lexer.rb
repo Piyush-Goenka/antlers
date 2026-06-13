@@ -51,7 +51,7 @@ module Antlers
 
       name, props, keywords = parse_segment(antlers_segment:)
 
-      return slot_yield if slot_yield?(keywords)
+      return slot_yield if slot_yield?(keywords:)
       return slot(name:, props:) if slot?(name)
       return prop(name:, props:) if prop?(name)
       return for_loop(keywords:) if for_loop?(keywords:)
@@ -62,8 +62,23 @@ module Antlers
     def parse_segment(antlers_segment:)
       name_and_props, *keywords = antlers_segment.split(/(#{Regexp.union(@keywords)})/)
       name, *props = name_and_props.split(' ')
+      [name, props, parse_keywords(keywords:)]
+    end
 
-      [name, props, keywords.map(&:strip)]
+    def parse_keywords(keywords:)
+      key_values = {}
+
+      while (keyword = keywords.shift)
+        keyword.strip!
+        value = keyword.end_with?(':') && value?(keywords.first) ? keywords.shift.strip : nil
+        key_values[keyword] = value
+      end
+
+      key_values
+    end
+
+    def value?(string)
+      !(string.start_with?(':') || string.end_with?(':'))
     end
 
     def var?(segments:)
@@ -79,8 +94,8 @@ module Antlers
       name && (name.start_with?(':') || name.end_with?(':'))
     end
 
-    def slot_yield?(keywords)
-      keywords.include?(':slot')
+    def slot_yield?(keywords:)
+      keywords.keys.include?(':slot')
     end
 
     def prop?(name)
@@ -95,11 +110,9 @@ module Antlers
     end
 
     def for_loop(keywords:)
-      key_values = keywords.count.even? ? keywords.each_slice(2).to_h : {}
-
-      if key_values['for:']
-        *key, value = key_values['for:'].split(',').map(&:strip)
-        for_def = { for_def: value, in: key_values['in:'] }
+      if keywords['for:']
+        *key, value = keywords['for:'].split(',').map(&:strip)
+        for_def = { for_def: value, in: keywords['in:'] }
         for_def[:key] = key.first unless key.empty?
         return for_def
       end
