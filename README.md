@@ -95,8 +95,9 @@ Forms can be created in a compositional way, mixing both Antlers syntax with reg
 ```
 
 Antlers generates additional markup behind the scenes:
-- The form will `POST` to the `/submit` URL
-- An authentication token will be generated on your behalf [UNRELEASED]
+- Sets the form's `action` to `/submit`
+- Sets the form's `method` to `POST`
+- Adds an anti-forgery token to prevent CSRF [UNRELEASED]
 
 Change the `POST` method to `GET` with:
 
