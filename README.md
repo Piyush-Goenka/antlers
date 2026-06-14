@@ -94,7 +94,9 @@ Forms can be created in a compositional way, mixing both Antlers syntax with reg
 <{ :form }>
 ```
 
-The form will `POST` to the `/submit` URL. An auth token will be generated on your behalf.
+Antlers generates additional markup behind the scenes:
+- The form will `POST` to the `/submit` URL
+- An authentication token will be generated on your behalf [UNRELEASED]
 
 Change the `POST` method to `GET` with:
 
@@ -105,7 +107,7 @@ Change the `POST` method to `GET` with:
 <{ :form }>
 ```
 
-ℹ️ In the future Antlers will provide additional input helpers such as `<{ label: 'A Label' }>`, `<{ search: :query }>` and `<{ submit: 'Search' }>`.
+ℹ️ Antlers provides other input helpers such as `<{ label: 'Label' }>`, `<{ search: :query }>` and `<{ submit: 'Search' }>`. [UNRELEASED]
 
 ## Config [UNRELEASED]
 
@@ -157,7 +159,7 @@ def render
   <html>{"I'm just a string"}</html>
 end
 ```
-ℹ️ **Translations:** Text entered this way will be easy to translate in future based on region, language or any arbitrary condition. [UNRELEASED]
+ℹ️ **Translations:** Text entered this way can be translated based on region, language or any arbitrary condition. [UNRELEASED]
 
 ## Full Examples
 
