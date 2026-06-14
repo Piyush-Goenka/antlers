@@ -11,13 +11,8 @@ require_relative '../lib/nodes/yield_node'
 RSpec.describe Antlers::Parser do
   subject(:parser) { described_class }
 
-  let(:var_node) do
-    Antlers::VarNode.new(value: "I'm just a string")
-  end
-
-  let(:prop_node) do
-    Antlers::PropNode.new(name: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil })
-  end
+  let(:var_node) { Antlers::VarNode.new(value: "I'm just a string") }
+  let(:prop_node) { Antlers::PropNode.new(name: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil }) }
 
   describe '.parse' do
     context 'with var' do

@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 require 'lowload'
-require 'low_node'
 
 require_relative '../../lib/nodes/prop_node'
 require_relative '../fixtures/prop_node'
 LowLoad.lowload('spec/fixtures/prop_node.rbx')
 
-# We are testing that we can render a LowNode from Antlers, and indirectly testing that a LowNode can render itself (via Ruby or Antlers).
+# Render an Antlers node, which renders its corresponding named LowNode, which renders its Antlers template.
 RSpec.describe Antlers::PropNode do
   let(:event) { 'mock event' }
 

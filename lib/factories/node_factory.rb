@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../nodes/for_node'
+require_relative '../nodes/form_node'
 require_relative '../nodes/prop_node'
 require_relative '../nodes/slot_node'
 require_relative '../nodes/var_node'
@@ -12,6 +13,13 @@ module Antlers
       def for_node(segment:)
         value, key, items = segment.values_at(:for_def, :key, :in)
         ForNode.new(name: value, key:, value:, items:)
+      end
+
+      def form_node(segment:)
+        action, method = segment.values_at(:form_def, :method)
+        return FormNode.new(name: action, action:, method:) if method
+
+        FormNode.new(name: action, action:)
       end
 
       def prop_node(segment:)

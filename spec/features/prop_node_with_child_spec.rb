@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require 'lowload'
-require 'low_node'
-
 require_relative '../../lib/nodes/prop_node'
 
 LowLoad.lowload('spec/fixtures/prop_node_var.rbx')

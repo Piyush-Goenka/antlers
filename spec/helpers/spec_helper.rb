@@ -13,3 +13,10 @@ RSpec.configure do |config|
     expectations.max_formatted_output_length = 10_000
   end
 end
+
+class String
+  # Delete whitespace at the start of a new line, then delete new lines.
+  def squish
+    self.gsub(/^\s*/, '').delete("\n")
+  end
+end

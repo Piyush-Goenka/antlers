@@ -78,11 +78,36 @@ end
   <{ UserNode user=user }>
 <{ :for }>
 
-# Directive.
+# Directive. [UNRELEASED]
 <{ UserNode user=user for: user in: @users }>
 ```
 
 ℹ️ You can iterate a hash with `for: key, value` syntax.
+
+### Forms
+
+Forms can be created in a compositional way, mixing both Antlers syntax with regular form elements:
+
+```ruby
+<{ form: '/submit' }>
+  <input type="submit" value="Submit">
+<{ :form }>
+```
+
+Antlers generates additional markup behind the scenes:
+- The form will `POST` to the `/submit` URL
+- An authentication token will be generated on your behalf [UNRELEASED]
+
+Change the `POST` method to `GET` with:
+
+```ruby
+<{ form: '/search' method: 'GET' }>
+  <input type="search">
+  <input type="submit" value="search">
+<{ :form }>
+```
+
+ℹ️ Antlers provides other input helpers such as `<{ label: 'Label' }>`, `<{ search: :query }>` and `<{ submit: 'Search' }>`. [UNRELEASED]
 
 ## Config [UNRELEASED]
 
@@ -134,7 +159,7 @@ def render
   <html>{"I'm just a string"}</html>
 end
 ```
-ℹ️ **Translations:** Text entered this way will be easy to translate in future based on region, language or any arbitrary condition. [UNRELEASED]
+ℹ️ **Translations:** Text entered this way can be translated based on region, language or any arbitrary condition. [UNRELEASED]
 
 ## Full Examples
 

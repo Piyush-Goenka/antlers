@@ -9,8 +9,6 @@ module Antlers
     include Props
     include Variables
 
-    attr_accessor :children
-
     def initialize(name:, items:, value:, key: nil, props: [], children: [])
       super(name:, props:, children:)
 
