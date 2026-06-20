@@ -8,8 +8,8 @@ module Antlers
   class LexerParseError < StandardError; end
 
   class Lexer
-    FOR_KEYWORDS = ['for:', 'in:', ':for']
-    FORM_KEYWORDS = ['form:', ':form']
+    FOR_KEYWORDS = ['for:', 'in:', ':for'].freeze
+    FORM_KEYWORDS = ['form:', ':form'].freeze
 
     def initialize
       @delimiters = ['<{', '}>', '{', '}']

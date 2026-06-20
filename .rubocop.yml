@@ -13,6 +13,9 @@ Layout/FirstArrayElementIndentation:
 Style/Documentation:
   Enabled: false
 
+Style/NumericPredicate:
+  Enabled: false
+
 Layout/LineLength:
   Max: 140
 

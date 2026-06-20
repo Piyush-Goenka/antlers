@@ -17,6 +17,6 @@ end
 class String
   # Delete whitespace at the start of a new line, then delete new lines.
   def squish
-    self.gsub(/^\s*/, '').delete("\n")
+    gsub(/^\s*/, '').delete("\n")
   end
 end
