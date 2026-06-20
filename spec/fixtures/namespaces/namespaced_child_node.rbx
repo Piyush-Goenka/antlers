@@ -4,7 +4,7 @@ require 'low_node'
 
 module Namespace
   class ChildNode < LowNode
-    def render(event:)
+    def render
       <{ LayoutNode: }>
         <p></p>
       <{ :LayoutNode }>

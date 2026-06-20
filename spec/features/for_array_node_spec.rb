@@ -6,11 +6,9 @@ LowLoad.lowload('spec/fixtures/for_array_node.rbx')
 RSpec.describe RBX::ForArrayNode do
   subject(:for_node) { described_class }
 
-  let(:event) { 'mock event' }
-
   describe '<{ for: value in: @items }>' do
     it 'renders value' do
-      expect(RBX::ForArrayNode.render(event:).response.body.read).to eq(
+      expect(RBX::ForArrayNode.render(event: 'asdf').response.body.read).to eq(
         <<~HTML.delete(" \n")
           <ul>
             <li>1</li>

@@ -9,11 +9,9 @@ LowLoad.lowload('spec/fixtures/prop_node_with_child.rbx')
 RSpec.describe RBX::PropNodeWithChild do
   subject(:prop_node) { described_class }
 
-  let(:event) { 'mock event' }
-
   describe '#render' do
     it 'renders child with prop' do
-      expect(prop_node.render(event:).response.body.read).to eq('<html><strong>Parent Variable</strong></html>')
+      expect(prop_node.render.response.body.read).to eq('<html><strong>Parent Variable</strong></html>')
     end
   end
 end

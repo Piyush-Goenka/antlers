@@ -4,12 +4,12 @@ require 'low_node'
 
 module RBX
   class SlotNodeWithChild < LowNode
-    def initialize(event:)
+    def initialize
       @ivar = 'Parent Variable'
     end
 
     # Passes in prop from this instance, not from YieldNode.
-    def render(event:)
+    def render
       <{ YieldNode: }>
         <{ PropNodeVar var=@ivar }>
       <{ :YieldNode }>

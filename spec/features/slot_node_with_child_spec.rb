@@ -11,15 +11,13 @@ LowLoad.lowload('spec/fixtures/yield_node.rbx')
 RSpec.describe RBX::SlotNodeWithChild do
   subject(:parent_node) { described_class }
 
-  let(:event) { 'mock event' }
-
   describe '#render' do
     context 'when slot has a prop node' do
       subject(:slot_node) { Antlers::SlotNode.new(name: 'RBX::YieldNode', children: [prop_node]) }
       subject(:prop_node) { Antlers::PropNode.new(name: 'RBX::PropNodeVar') }
 
       it 'renders both slot and prop node' do
-        expect(parent_node.render(event:).response.body.read).to eq('<html><strong>Parent Variable</strong></html>')
+        expect(parent_node.render.response.body.read).to eq('<html><strong>Parent Variable</strong></html>')
       end
     end
   end

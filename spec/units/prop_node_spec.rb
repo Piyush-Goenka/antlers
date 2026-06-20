@@ -8,8 +8,6 @@ LowLoad.lowload('spec/fixtures/prop_node.rbx')
 
 # Render an Antlers node, which renders its corresponding named LowNode, which renders its Antlers template.
 RSpec.describe Antlers::PropNode do
-  let(:event) { 'mock event' }
-
   describe '#render' do
     subject(:prop_node) { described_class.new(name: 'RBX::PropNode') }
 
