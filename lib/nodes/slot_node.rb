@@ -17,7 +17,7 @@ module Antlers
       props = evaluate_props(props: @props, current_binding:)
       event = create_render_event(props:)
 
-      klass = class_from_namespace(namespace: namespace&.split('::') || [], name: @name)
+      klass = class_constant(namespace: namespace&.split('::') || [], name: @name)
       instance = klass.new(event:)
 
       # Classes referenced via "<{ ChildNode }>" must implement class/instance render/render_template methods (See LowNode).

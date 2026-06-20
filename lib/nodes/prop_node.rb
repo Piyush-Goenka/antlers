@@ -11,7 +11,7 @@ module Antlers
       props = evaluate_props(props: @props, current_binding:)
       event = create_render_event(props:)
 
-      renderable_klass = class_from_namespace(namespace: namespace&.split('::') || [], name: @name)
+      renderable_klass = class_constant(namespace: namespace&.split('::') || [], name: @name)
       # TODO: There's currently 2 results for "Lowkey[renderable_klass.to_s]", this should not be.
       # TODO: Only provide args that are defined, similar to how render_template does it.
       initialize_method = Lowkey[renderable_klass.to_s].first[renderable_klass.to_s][:initialize]

@@ -33,9 +33,13 @@ module Antlers
       evaluated_props
     end
 
-    def class_from_namespace(namespace:, name:)
-      return Object.const_get(name) if Object.const_defined?(name) || name.start_with?('::') || namespace.empty?
+    def class_constant(namespace:, name:)
+      return Object.const_get(name) if name.start_with?('::')
 
+      class_from_namespace(namespace:, name:)
+    end
+
+    def class_from_namespace(namespace:, name:)
       namespace_with_name = [namespace, name].join('::')
       return Object.const_get(namespace_with_name) if Object.const_defined?(namespace_with_name)
 
