@@ -3,8 +3,8 @@
 require 'low_node'
 
 module RBX
-  class ForHashNode < LowNode
-    def initialize(event:)
+  class ForNodeHash < LowNode
+    def initialize
       @items = {
         one: 1,
         two: 2,
@@ -12,7 +12,7 @@ module RBX
       }
     end
 
-    def render(event:)
+    def render
       <ul>
         <{ for: key, value in: @items }>
           <li>{key}:{value}</li>

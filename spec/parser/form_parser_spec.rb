@@ -4,7 +4,7 @@ require_relative '../../lib/parser'
 require_relative '../../lib/nodes/form_node'
 
 RSpec.describe 'Antlers::Parser: Form' do
-  subject(:parser) { Antlers::Parser }
+  subject(:parser) { Antlers::Parser.new }
 
   context 'with basic form' do
     let(:sequence) do
@@ -16,7 +16,7 @@ RSpec.describe 'Antlers::Parser: Form' do
     end
 
     it 'returns AST' do
-      expect(parser.parse(sequence).children).to eq([form_node])
+      expect(parser.parse(sequence:).children).to eq([form_node])
     end
   end
 end

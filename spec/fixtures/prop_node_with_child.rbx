@@ -4,11 +4,11 @@ require 'low_node'
 
 module RBX
   class PropNodeWithChild < LowNode
-    def initialize(event:)
+    def initialize
       @ivar = 'Parent Variable'
     end
 
-    def render(event:)
+    def render
       <html><{ PropNodeVar var=@ivar }></html>
     end
 

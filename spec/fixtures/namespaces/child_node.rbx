@@ -3,7 +3,7 @@
 require 'low_node'
 
 class ChildNode < LowNode
-  def render(event:)
+  def render
     <{ LayoutNode: }>
       <p></p>
     <{ :LayoutNode }>

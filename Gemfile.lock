@@ -15,7 +15,6 @@ PATH
       low_event
       low_loop
       low_type (~> 1.0)
-      lowkey
       observers
 
 PATH

@@ -17,7 +17,7 @@ module Antlers
       @key = key
     end
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
       output = ''
 
       evaluate(name: @items, current_binding:).each do |value|
@@ -29,7 +29,7 @@ module Antlers
 
         @children.each do |child|
           # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.
-          output += (child.respond_to?(:render) ? child.render(current_binding:, parent_binding:, slot_node:, namespace:) : child) || ''
+          output += (child.respond_to?(:render) ? child.render(current_binding:, parent_binding:, slot_node:) : child) || ''
         end
       end
 

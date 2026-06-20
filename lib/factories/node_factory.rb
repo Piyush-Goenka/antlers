@@ -9,34 +9,40 @@ require_relative '../nodes/yield_node'
 
 module Antlers
   class NodeFactory
-    class << self
-      def for_node(segment:)
-        value, key, items = segment.values_at(:for_def, :key, :in)
-        ForNode.new(name: value, key:, value:, items:)
-      end
-
-      def form_node(segment:)
-        action, method = segment.values_at(:form_def, :method)
-        return FormNode.new(name: action, action:, method:) if method
-
-        FormNode.new(name: action, action:)
-      end
-
-      def prop_node(segment:)
-        PropNode.new(name: segment[:prop], props: segment[:props])
-      end
-
-      def slot_node(segment:)
-        SlotNode.new(name: segment[:slot_def], props: segment[:props])
-      end
-
-      def var_node(segment:)
-        VarNode.new(value: segment[:var])
-      end
-
-      def yield_node(segment:)
-        YieldNode.new(name: segment[:slot])
-      end
+    def initialize(namespace:)
+      @namespace = namespace
     end
+
+    def for_node(segment:)
+      value, key, items = segment.values_at(:for_def, :key, :in)
+      ForNode.new(name: value, key:, value:, items:)
+    end
+
+    def form_node(segment:)
+      action, method = segment.values_at(:form_def, :method)
+      return FormNode.new(name: action, action:, method:) if method
+
+      FormNode.new(name: action, action:)
+    end
+
+    def prop_node(segment:)
+      PropNode.new(name: segment[:prop], props: segment[:props], namespace:)
+    end
+
+    def slot_node(segment:)
+      SlotNode.new(name: segment[:slot_def], props: segment[:props], namespace:)
+    end
+
+    def var_node(segment:)
+      VarNode.new(value: segment[:var])
+    end
+
+    def yield_node(segment:)
+      YieldNode.new(name: segment[:slot])
+    end
+
+    private
+
+    attr_reader :namespace
   end
 end

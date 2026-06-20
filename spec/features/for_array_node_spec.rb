@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 require 'lowload'
-LowLoad.lowload('spec/fixtures/for_array_node.rbx')
+LowLoad.lowload('spec/fixtures/for_node_array.rbx')
 
-RSpec.describe RBX::ForArrayNode do
+RSpec.describe RBX::ForNodeArray do
   subject(:for_node) { described_class }
-
-  let(:event) { 'mock event' }
 
   describe '<{ for: value in: @items }>' do
     it 'renders value' do
-      expect(RBX::ForArrayNode.render(event:).response.body.read).to eq(
-        <<~HTML.delete(" \n")
+      expect(RBX::ForNodeArray.render.response.body.read).to eq(
+        <<~HTML.squish
           <ul>
             <li>1</li>
             <li>2</li>

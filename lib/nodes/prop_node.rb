@@ -1,26 +1,51 @@
 # frozen_string_literal: true
 
 require_relative '../interfaces/leaf_node'
+require_relative '../modules/namespace'
 require_relative '../modules/props'
 
 module Antlers
   class PropNode < LeafNode
-    include Props
+    include Namespace
+    include Props # Immediate parent ancestor that super() refers to.
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
+    def initialize(name:, props: {}, namespace: nil, **)
+      super(name:, props:)
+
+      @namespace = namespace
+    end
+
+    # Classes referenced via "<{ MyNode }>" must implement class/instance and render/render_template methods (See LowNode).
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
       props = evaluate_props(props: @props, current_binding:)
       event = create_render_event(props:)
 
-      renderable_klass = class_constant(namespace: namespace&.split('::') || [], name: @name)
-      # TODO: There's currently 2 results for "Lowkey[renderable_klass.to_s]", this should not be.
-      # TODO: Only provide args that are defined, similar to how render_template does it.
-      initialize_method = Lowkey[renderable_klass.to_s].first[renderable_klass.to_s][:initialize]
-      renderable_instance = initialize_method ? renderable_klass.new(event:, **props) : renderable_klass.new(event:)
+      # TODO: Get LowLoad to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
+      klass = class_constant(namespace: @namespace&.split('::') || [], name: @name)
+      class_proxy = Lowkey[klass.to_s].first[klass.to_s]
+      instance = create_instance(class_proxy:, klass:, event:)
 
-      # Classes referenced via "<{ ChildNode }>" must implement class/instance render/render_template methods (See LowNode).
-      return renderable_instance.render_template(event:, parent_binding:, props:) if renderable_klass.template
+      return instance.render_template(event:, parent_binding:, props:) if klass.template
 
-      props.empty? ? renderable_instance.render(event:) : renderable_instance.render(event:, **props)
+      render_args(class_proxy:, instance:, event:, props:)
+    end
+
+    private
+
+    def create_instance(class_proxy:, klass:, event:)
+      initialize_params = class_proxy.instance_methods[:initialize]&.tagged_params(:keyword)&.map(&:name) || []
+      return klass.new(event:, **props) if initialize_params.include?(:event) && initialize_params.count > 1
+      return klass.new(event:) if initialize_params.include?(:event)
+
+      klass.new
+    end
+
+    def render_args(class_proxy:, instance:, event:, props:)
+      render_params = class_proxy.instance_methods[:render]&.tagged_params(:keyword)&.map(&:name) || []
+      return instance.render(event:, **props) if render_params.include?(:event) && render_params.count > 1
+      return instance.render(event:) if render_params.include?(:event)
+
+      instance.render
     end
   end
 end

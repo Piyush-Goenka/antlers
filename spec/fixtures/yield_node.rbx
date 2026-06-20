@@ -4,7 +4,7 @@ require 'low_node'
 
 module RBX
   class YieldNode < LowNode
-    def render(event:)
+    def render
       <html>
         <{ :slot }>
       </html>

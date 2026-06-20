@@ -3,12 +3,12 @@
 require 'low_node'
 
 module RBX
-  class ForArrayNode < LowNode
-    def initialize(event:)
+  class ForNodeArray < LowNode
+    def initialize
       @items = [1, 2, 3]
     end
 
-    def render(event:)
+    def render
       <ul>
         <{ for: item in: @items }>
           <li>{item}</li>

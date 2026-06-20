@@ -2,7 +2,7 @@
 
 module RBX
   class PropNodeNoIvar < LowNode
-    def render(event:)
+    def render
       <strong>{@ivar}</strong>
     end
   end

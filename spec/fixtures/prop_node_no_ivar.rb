@@ -2,7 +2,7 @@
 
 module Ruby
   class PropNodeNoIvar < LowNode
-    def render(event:)
+    def render
       @ivar
     end
   end

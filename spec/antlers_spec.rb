@@ -6,14 +6,17 @@ RSpec.describe Antlers do
   subject(:antlers) { described_class }
 
   describe '.ast' do
+    let(:parser) { Antlers::Parser.new }
+
     before do
-      allow(Antlers::Parser).to receive(:parse)
+      allow(Antlers::Parser).to receive(:new).and_return(parser)
+      allow(parser).to receive(:parse)
     end
 
     it 'calls parser' do
-      Antlers.ast('<{ MockNode }>')
+      Antlers.ast(template: '<{ MockNode }>')
 
-      expect(Antlers::Parser).to have_received(:parse)
+      expect(parser).to have_received(:parse)
     end
   end
 end

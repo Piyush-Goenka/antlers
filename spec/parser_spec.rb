@@ -9,7 +9,7 @@ require_relative '../lib/nodes/var_node'
 require_relative '../lib/nodes/yield_node'
 
 RSpec.describe Antlers::Parser do
-  subject(:parser) { described_class }
+  subject(:parser) { described_class.new }
 
   let(:var_node) { Antlers::VarNode.new(value: "I'm just a string") }
   let(:prop_node) { Antlers::PropNode.new(name: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil }) }
@@ -17,13 +17,13 @@ RSpec.describe Antlers::Parser do
   describe '.parse' do
     context 'with var' do
       it 'returns AST' do
-        expect(parser.parse([{ var: "I'm just a string" }]).children).to eq([var_node])
+        expect(parser.parse(sequence: [{ var: "I'm just a string" }]).children).to eq([var_node])
       end
     end
 
     context 'with instance variable' do
       it 'returns AST' do
-        expect(parser.parse([{ var: '@ivar' }]).children).to eq([Antlers::VarNode.new(value: '@ivar')])
+        expect(parser.parse(sequence: [{ var: '@ivar' }]).children).to eq([Antlers::VarNode.new(value: '@ivar')])
       end
     end
 
@@ -36,7 +36,7 @@ RSpec.describe Antlers::Parser do
       end
 
       it 'returns AST' do
-        expect(parser.parse(sequence).children).to eq([var_node, prop_node])
+        expect(parser.parse(sequence:).children).to eq([var_node, prop_node])
       end
 
       context 'when wrapped in HTML' do
@@ -53,7 +53,7 @@ RSpec.describe Antlers::Parser do
         end
 
         it 'returns AST' do
-          expect(parser.parse(sequence).children).to eq(ast)
+          expect(parser.parse(sequence:).children).to eq(ast)
         end
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe Antlers::Parser do
       end
 
       it 'returns AST' do
-        expect(parser.parse(sequence).children).to eq([for_node])
+        expect(parser.parse(sequence:).children).to eq([for_node])
       end
 
       context 'with hash' do
@@ -81,7 +81,7 @@ RSpec.describe Antlers::Parser do
         end
 
         it 'returns AST' do
-          expect(parser.parse(sequence).children).to eq([for_node])
+          expect(parser.parse(sequence:).children).to eq([for_node])
         end
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe Antlers::Parser do
       end
 
       it 'returns AST' do
-        slot_child = parser.parse(sequence).children.first
+        slot_child = parser.parse(sequence:).children.first
 
         expect(slot_child).to have_attributes(name: 'SlotNode', children: [prop_node])
       end
@@ -104,7 +104,7 @@ RSpec.describe Antlers::Parser do
 
     context 'with slot yield' do
       it 'returns AST' do
-        slot_child = parser.parse([{ slot: :default }]).children.first
+        slot_child = parser.parse(sequence: [{ slot: :default }]).children.first
 
         expect(slot_child).to be_an_instance_of(Antlers::YieldNode)
         expect(slot_child).to have_attributes(name: :default)

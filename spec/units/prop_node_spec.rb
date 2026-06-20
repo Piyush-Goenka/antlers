@@ -8,17 +8,17 @@ LowLoad.lowload('spec/fixtures/prop_node.rbx')
 
 # Render an Antlers node, which renders its corresponding named LowNode, which renders its Antlers template.
 RSpec.describe Antlers::PropNode do
-  let(:event) { 'mock event' }
-
   describe '#render' do
-    subject(:prop_node) { described_class.new(name: 'RBX::PropNode') }
+    subject(:prop_node) { described_class.new(name: 'RBX::PropNode', namespace: 'RBX::PropNode') }
 
-    it 'renders an instance variable' do
-      expect(prop_node.render).to eq('<html>Instance Variable</html>')
+    context 'with RBX template' do
+      it 'renders an instance variable' do
+        expect(prop_node.render).to eq('<html>Instance Variable</html>')
+      end
     end
 
-    context 'when low node is plain Ruby' do
-      subject(:prop_node) { described_class.new(name: 'Ruby::PropNode') }
+    context 'with Ruby template' do
+      subject(:prop_node) { described_class.new(name: 'Ruby::PropNode', namespace: 'Ruby::PropNode') }
 
       it 'renders an instance variable' do
         expect(prop_node.render).to eq('Instance Variable')

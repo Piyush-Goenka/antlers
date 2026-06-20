@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 require 'lowload'
-LowLoad.lowload('spec/fixtures/for_hash_node.rbx')
+LowLoad.lowload('spec/fixtures/for_node_hash.rbx')
 
-RSpec.describe RBX::ForHashNode do
+RSpec.describe RBX::ForNodeHash do
   subject(:for_node) { described_class }
-
-  let(:event) { 'mock event' }
 
   describe '<{ for: key, value in: @items }>' do
     it 'renders items' do
-      expect(RBX::ForHashNode.render(event:).response.body.read).to eq(
-        <<~HTML.delete(" \n")
+      expect(RBX::ForNodeHash.render.response.body.read).to eq(
+        <<~HTML.squish
           <ul>
             <li>one:1</li>
             <li>two:2</li>

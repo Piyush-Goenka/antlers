@@ -17,7 +17,7 @@ module Antlers
       @value = value
     end
 
-    def render(current_binding: nil, parent_binding: nil, slot_node: nil, namespace: nil)
+    def render(current_binding: nil, parent_binding: nil, slot_node: nil)
       ERB::Util.html_escape(evaluate(name: @value, current_binding:) || fallback(@value))
     end
   end
