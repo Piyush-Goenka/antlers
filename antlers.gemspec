@@ -8,13 +8,13 @@ Gem::Specification.new do |spec|
   spec.authors = ['maedi']
   spec.email = ['maediprichard@gmail.com']
 
-  spec.summary = 'Deer to be different'
-  spec.description = 'A new Ruby templating language. Coming soon...'
-  spec.homepage = 'https://codeberg.org/raindeer/antlers'
+  spec.summary = 'Templating language inside HTML inside Ruby'
+  spec.description = 'A templating language embedded within HTML that is itself embedded within Ruby/RBX'
+  spec.homepage = 'https://github.com/raindeer-rb/antlers'
   spec.required_ruby_version = '>= 3.3.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://codeberg.org/raindeer/antlers/src/branch/main'
+  spec.metadata['source_code_uri'] = 'https://github.com/raindeer-rb/antlers/src/branch/main'
 
   # Specify which files should be added to the gem when it is released.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'erb'
   spec.add_dependency 'low_event'
+  spec.add_dependency 'lowkey'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
