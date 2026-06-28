@@ -17,7 +17,7 @@ module Antlers
       name, *chain = name.split('.')
 
       result = method_var(name:, current_binding:)
-      return method_chain(result:, chain:, current_binding:) if chain.count > 0
+      return method_chain(result:, chain:) if chain.count > 0
       return result if result
 
       nil
@@ -41,7 +41,7 @@ module Antlers
       nil
     end
 
-    def method_chain(result:, chain:, current_binding:)
+    def method_chain(result:, chain:)
       chain.reduce(result) do |result, method_call|
         result.send(method_call.to_sym)
       end

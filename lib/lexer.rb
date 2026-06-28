@@ -133,7 +133,7 @@ module Antlers
 
     def form(keywords:)
       if keywords.key?('form:')
-        action = keywords['form:'] && keywords['form:'] ? keywords['form:'][1...-1] : nil
+        action = keywords['form:'] ? keywords['form:'][1...-1] : nil
         return { form_def: action }
       end
 
