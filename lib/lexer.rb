@@ -44,13 +44,13 @@ module Antlers
 
     def antlers_segment(segments:)
       next_segment = segments[@cursor + 1]
-      return nil unless next_segment && (segments[@cursor] == '<{' || var?(segments:))
+      return nil unless next_segment && (segments[@cursor] == '<{' || brackets?(segments:))
 
       next_segment
     end
 
     def antlers_lexeme(antlers_segment:, segments:)
-      return var(antlers_segment:) if var?(segments:)
+      return var(antlers_segment:) if brackets?(segments:)
 
       name, props, keywords = parse_segment(antlers_segment:)
 
@@ -59,6 +59,7 @@ module Antlers
       return prop(name:, props:) if prop?(name)
       return for_loop(keywords:) if for_loop?(keywords:)
       return form(keywords:) if form?(keywords:)
+      return var(antlers_segment:, raw: true) if deerheads?(segments:)
 
       raise LexerParseError, "Unrecognised syntax: '#{antlers_segment}'"
     end
@@ -87,9 +88,14 @@ module Antlers
 
     # TODO: Refactor every constant, match and result method into its own class. Loop through every class and return the first match.
 
-    def var?(segments:)
+    def brackets?(segments:)
       first, _, last = segments[@cursor..@cursor + 3].map(&:strip)
       first == '{' && last == '}'
+    end
+
+    def deerheads?(segments:)
+      first, _, last = segments[@cursor..@cursor + 3].map(&:strip)
+      first == '<{' && last == '}>'
     end
 
     def for_loop?(keywords:)
@@ -112,9 +118,11 @@ module Antlers
       name && [*'A'..'Z'].include?(name[0])
     end
 
-    def var(antlers_segment:)
+    def var(antlers_segment:, raw: false)
       # String is already interpolated or not depending on user input on the template layer, now we store it without those template quotes.
       antlers_segment = antlers_segment[1..-2] if Queries.user_defined_string?(antlers_segment)
+
+      return { raw_var: antlers_segment } if raw
 
       { var: antlers_segment }
     end

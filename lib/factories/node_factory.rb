@@ -37,6 +37,10 @@ module Antlers
       VarNode.new(value: segment[:var])
     end
 
+    def raw_var_node(segment:)
+      VarNode.new(value: segment[:raw_var], raw: true)
+    end
+
     def yield_node(segment:)
       YieldNode.new(name: segment[:slot])
     end

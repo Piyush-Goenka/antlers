@@ -148,7 +148,12 @@ Antlers uses two different sets of start and stop characters:
 - 🦌 **Deerheads:** `<{` and `}>`
 - 🖇 **Brackets:** `{` and `}`
 
-Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`). You can output variables with the Deerhead syntax too (`<{ @instance_var }>` and `<{ local_var }>`). The `{}` brackets syntax is provided in addition for variables as it's shorter and easier to type.
+> [!note]
+> The `{}` brackets syntax only renders variables and escapes HTML.
+
+You can output [variables](#variables) with the Deerhead syntax too (`<{ @instance_var }>` and `<{ local_var }>`) without escaping HTML.
+
+Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`).
 
 ## Advanced Techniques
 
@@ -218,11 +223,11 @@ Render the AST and evaluate variables in the supplied binding.
 
 ### Variables
 
-Variables `{}` can evaluate the following:
-1. An instance variable: `{ @instance_variable }`
-2. A method call/local variable: `{ method_or_variable}`
-3. A method chain: `{ method_or_variable.method_two }`
-4. A static string: `{"Static String"}`
+Variables can evaluate the following:
+1. An instance variable: `{ @instance_variable }` or `<{ @instance_variable }>`
+2. A method call/local variable: `{ method_or_variable }` or `<{ method_or_variable }>`
+3. A method chain: `{ method_or_variable.method_two }` or `<{ method_or_variable.method_two }>`
+4. A static string: `{"Static String"}` or `<{"Static String"}>`
 
 ## Architecture
 

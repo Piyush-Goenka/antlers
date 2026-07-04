@@ -21,6 +21,8 @@ module Antlers
           node.children << segment
         elsif segment[:var]
           node.children << @factory.var_node(segment:)
+        elsif segment[:raw_var]
+          node.children << @factory.raw_var_node(segment:)
         elsif segment[:prop]
           node.children << @factory.prop_node(segment:)
         elsif segment[:slot]
