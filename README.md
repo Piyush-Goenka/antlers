@@ -58,7 +58,7 @@ class LayoutNode
 end
 ```
 
-### Conditionals [UNRELEASED]
+### Conditionals
 
 ```ruby
 # Block.
@@ -66,7 +66,7 @@ end
   <{ UserNode user=@user }>
 <{ :if }>
 
-# Directive.
+# Directive. [UNRELEASED]
 <{ UserNode user=@user if: @user.happy? }>
 ```
 

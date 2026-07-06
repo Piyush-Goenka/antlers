@@ -31,6 +31,10 @@ module Antlers
           slot_node = @factory.slot_node(segment:)
           node.children << slot_node
           sub_branch(node: slot_node, sequence:, end_key: :slot_end, end_name: slot_node.name)
+        elsif segment[:if_def]
+          if_node = @factory.if_node(segment:)
+          node.children << if_node
+          sub_branch(node: if_node, sequence:, end_key: :if_end, end_name: 'level_1')
         elsif segment[:for_def]
           for_node = @factory.for_node(segment:)
           node.children << for_node

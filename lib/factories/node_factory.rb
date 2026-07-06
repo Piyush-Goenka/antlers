@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative '../nodes/if_node'
 require_relative '../nodes/for_node'
 require_relative '../nodes/form_node'
 require_relative '../nodes/prop_node'
@@ -11,6 +12,10 @@ module Antlers
   class NodeFactory
     def initialize(namespace:)
       @namespace = namespace
+    end
+
+    def if_node(segment:)
+      IfNode.new(name: segment[:if_def], value: segment[:if_def])
     end
 
     def for_node(segment:)

@@ -8,12 +8,13 @@ module Antlers
   class LexerParseError < StandardError; end
 
   class Lexer
+    IF_KEYWORDS = ['if:', ':if'].freeze
     FOR_KEYWORDS = ['for:', 'in:', ':for'].freeze
     FORM_KEYWORDS = ['form:', ':form'].freeze
 
     def initialize
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = ['if:', *FORM_KEYWORDS, *FOR_KEYWORDS, 'slot:', ':slot']
+      @keywords = [*IF_KEYWORDS, *FORM_KEYWORDS, *FOR_KEYWORDS, 'slot:', ':slot']
       @cursor = 0
     end
 
@@ -57,6 +58,7 @@ module Antlers
       return slot_yield if slot_yield?(keywords:)
       return slot(name:, props:) if slot?(name)
       return prop(name:, props:) if prop?(name)
+      return if_block(keywords:) if if_block?(keywords:)
       return for_loop(keywords:) if for_loop?(keywords:)
       return form(keywords:) if form?(keywords:)
       return var(antlers_segment:, raw: true) if deerheads?(segments:)
@@ -98,6 +100,10 @@ module Antlers
       first == '<{' && last == '}>'
     end
 
+    def if_block?(keywords:)
+      IF_KEYWORDS.include?(keywords.keys.first)
+    end
+
     def for_loop?(keywords:)
       FOR_KEYWORDS.include?(keywords.keys.first)
     end
@@ -125,6 +131,12 @@ module Antlers
       return { raw_var: antlers_segment } if raw
 
       { var: antlers_segment }
+    end
+
+    def if_block(keywords:)
+      return { if_def: keywords['if:'] } if keywords.key?('if:')
+
+      { if_end: 'level_1' }
     end
 
     def for_loop(keywords:)
