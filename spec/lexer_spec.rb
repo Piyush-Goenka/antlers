@@ -47,7 +47,7 @@ RSpec.describe Antlers::Lexer do
     context 'with a prop node' do
       let(:template) do
         <<~RUBY
-          <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+          <{ PropNode prop_with_val=mock_val prop_without_val }>
         RUBY
       end
 
@@ -63,7 +63,7 @@ RSpec.describe Antlers::Lexer do
         let(:template) do
           <<~RUBY
             <div class="{@mock_var}">
-              <{ PropNode prop_with_val=mock_val prop_without_val if: @user.happy? }>
+              <{ PropNode prop_with_val=mock_val prop_without_val }>
             </div>
           RUBY
         end

@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+require_relative 'lexemes/for_lexeme'
+require_relative 'lexemes/form_lexeme'
+require_relative 'lexemes/if_lexeme'
+require_relative 'lexemes/prop_lexeme'
+require_relative 'lexemes/slot_lexeme'
+require_relative 'lexemes/yield_lexeme'
 require_relative 'support/queries'
 
 module Antlers
@@ -7,14 +13,20 @@ module Antlers
 
   class LexerParseError < StandardError; end
 
-  class Lexer
-    IF_KEYWORDS = ['if:', ':if'].freeze
-    FOR_KEYWORDS = ['for:', 'in:', ':for'].freeze
-    FORM_KEYWORDS = ['form:', ':form'].freeze
+  LEXEMES = [
+    # FormLexeme must be ordered before ForLexeme for regex to work.
+    Antlers::FormLexeme,
+    Antlers::ForLexeme,
+    Antlers::IfLexeme,
+    Antlers::PropLexeme,
+    Antlers::SlotLexeme,
+    Antlers::YieldLexeme,
+  ]
 
+  class Lexer
     def initialize
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = [*IF_KEYWORDS, *FORM_KEYWORDS, *FOR_KEYWORDS, 'slot:', ':slot']
+      @keywords = LEXEMES.flat_map { |lexeme| lexeme.const_get(:KEYWORDS) }
       @cursor = 0
     end
 
@@ -55,12 +67,8 @@ module Antlers
 
       name, props, keywords = parse_segment(antlers_segment:)
 
-      return slot_yield if slot_yield?(keywords:)
-      return slot(name:, props:) if slot?(name)
-      return prop(name:, props:) if prop?(name)
-      return if_block(keywords:) if if_block?(keywords:)
-      return for_loop(keywords:) if for_loop?(keywords:)
-      return form(keywords:) if form?(keywords:)
+      lexeme = LEXEMES.find { it.match?(name:, keywords:) }
+      return lexeme.lexeme(name:, props:, keywords:) if lexeme
       return var(antlers_segment:, raw: true) if deerheads?(segments:)
 
       raise LexerParseError, "Unrecognised syntax: '#{antlers_segment}'"
@@ -100,30 +108,6 @@ module Antlers
       first == '<{' && last == '}>'
     end
 
-    def if_block?(keywords:)
-      IF_KEYWORDS.include?(keywords.keys.first)
-    end
-
-    def for_loop?(keywords:)
-      FOR_KEYWORDS.include?(keywords.keys.first)
-    end
-
-    def form?(keywords:)
-      FORM_KEYWORDS.include?(keywords.keys.first)
-    end
-
-    def slot?(name)
-      name && (name.start_with?(':') || name.end_with?(':'))
-    end
-
-    def slot_yield?(keywords:)
-      keywords.keys.include?(':slot')
-    end
-
-    def prop?(name)
-      name && [*'A'..'Z'].include?(name[0])
-    end
-
     def var(antlers_segment:, raw: false)
       # String is already interpolated or not depending on user input on the template layer, now we store it without those template quotes.
       antlers_segment = antlers_segment[1..-2] if Queries.user_defined_string?(antlers_segment)
@@ -131,74 +115,6 @@ module Antlers
       return { raw_var: antlers_segment } if raw
 
       { var: antlers_segment }
-    end
-
-    def if_block(keywords:)
-      return { if_def: keywords['if:'] } if keywords.key?('if:')
-
-      { if_end: 'level_1' }
-    end
-
-    def for_loop(keywords:)
-      if keywords['for:']
-        *key, value = keywords['for:'].split(',').map(&:strip)
-        for_def = { for_def: value, in: keywords['in:'] }
-        for_def[:key] = key.first unless key.empty?
-        return for_def
-      end
-
-      # TODO: Keep track of which for loop we're in to allow nested for loops.
-      { for_end: 'level_1' }
-    end
-
-    def form(keywords:)
-      if keywords.key?('form:')
-        action = keywords['form:'] ? keywords['form:'][1...-1] : nil
-        return { form_def: action }
-      end
-
-      { form_end: 'level_1' }
-    end
-
-    def slot(name:, props:)
-      if name.end_with?(':')
-        slot_def = { slot_def: name.delete_suffix(':') }
-        slot_def[:props] = props(props) unless props.empty?
-        return slot_def
-      end
-
-      { slot_end: name.delete_prefix(':') }
-    end
-
-    def slot_yield
-      { slot: :default }
-    end
-
-    def prop(name:, props:)
-      prop = { prop: name }
-      prop[:props] = props(props) unless props.empty?
-      prop
-    end
-
-    def props(props)
-      odd_props = props.join(' ').split(/(=)|\s/)
-
-      return {} unless odd_props.any?
-
-      props = {}
-      until odd_props.empty?
-        prop = odd_props.shift
-        value = nil
-
-        if odd_props.first == '='
-          odd_props.shift
-          value = odd_props.shift
-        end
-
-        props[prop.to_sym] = value
-      end
-
-      props
     end
   end
 end
