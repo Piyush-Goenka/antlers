@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'lowload'
 LowLoad.lowload('spec/fixtures/for_node_array.rbx')
 
 RSpec.describe RBX::ForNodeArray do

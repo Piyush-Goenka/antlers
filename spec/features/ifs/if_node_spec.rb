@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'lowload'
 require_relative '../../../lib/nodes/if_node'
 
 LowLoad.lowload('spec/fixtures/ifs/if_node.rbx')
@@ -12,7 +11,7 @@ RSpec.describe RBX::IfNode do
     context 'when true' do
       let(:boolean) { true }
 
-      it 'renders children' do
+      it 'returns response' do
         expect(if_node.response.body.read).to eq(
           <<~HTML.squish
             <p>Yes</p>
@@ -24,8 +23,8 @@ RSpec.describe RBX::IfNode do
     context 'when false' do
       let(:boolean) { false }
 
-      it 'renders empty string' do
-        expect(if_node.response.body.read).to eq('')
+      it 'returns nil' do
+        expect(if_node).to eq(nil)
       end
     end
   end

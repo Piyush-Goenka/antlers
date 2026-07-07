@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'lowload'
 LowLoad.lowload('spec/fixtures/namespaces/child_node.rbx')
 LowLoad.lowload('spec/fixtures/namespaces/layout_node.rbx')
 LowLoad.lowload('spec/fixtures/namespaces/namespaced_child_node.rbx')

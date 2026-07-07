@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'lowload'
 LowLoad.lowload('spec/fixtures/for_node_hash.rbx')
 
 RSpec.describe RBX::ForNodeHash do

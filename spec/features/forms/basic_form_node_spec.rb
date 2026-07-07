@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'lowload'
 require_relative '../../../lib/nodes/form_node'
 
 LowLoad.lowload('spec/fixtures/forms/basic_form_node.rbx')
