@@ -10,7 +10,7 @@ PATH
 PATH
   remote: ../low_node
   specs:
-    low_node (0.4.0)
+    low_node (0.5.0)
       antlers
       low_event
       low_loop
@@ -208,7 +208,7 @@ CHECKSUMS
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   low_event (0.7.1)
   low_loop (0.7.0) sha256=cebe2d57bdc1c9164f3d8ed89c290ed005a119b1299136d03501ecf12aabe6f3
-  low_node (0.4.0)
+  low_node (0.5.0)
   low_type (1.3.0) sha256=b54d67353fa755b4be0e7d041be007d68faf40062449d7c86bee23c21ec060a0
   lowkey (0.4.3)
   lowload (0.6.0)
