@@ -23,8 +23,8 @@ module Antlers
       # TODO: Get LowLoad to load constants defined in "<{ MyNode }>" syntax so that we can resolve namespace/params on class load.
       klass = class_constant(namespace: @namespace&.split('::') || [], name: @name)
       class_proxy = Lowkey[klass.to_s].first[klass.to_s]
-      instance = create_instance(class_proxy:, klass:, event:)
 
+      instance = create_instance(class_proxy:, klass:, event:, props:)
       return instance.render_template(event:, parent_binding:, props:) if klass.template
 
       render_args(class_proxy:, instance:, event:, props:)
@@ -32,9 +32,10 @@ module Antlers
 
     private
 
-    def create_instance(class_proxy:, klass:, event:)
+    def create_instance(class_proxy:, klass:, event:, props:)
       initialize_params = class_proxy.instance_methods[:initialize]&.tagged_params(:keyword)&.map(&:name) || []
       return klass.new(event:, **props) if initialize_params.include?(:event) && initialize_params.count > 1
+      return klass.new(**props) if initialize_params.count > 1
       return klass.new(event:) if initialize_params.include?(:event)
 
       klass.new
