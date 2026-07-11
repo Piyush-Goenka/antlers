@@ -1,43 +1,25 @@
 # frozen_string_literal: true
 
-require_relative '../nodes/root_node'
-require_relative '../nodes/if_node'
-require_relative '../nodes/for_node'
-require_relative '../nodes/form_node'
-require_relative '../nodes/html_node'
-require_relative '../nodes/prop_node'
-require_relative '../nodes/slot_node'
-require_relative '../nodes/var_node'
-require_relative '../nodes/yield_node'
+require_relative 'node_types'
 
 module Antlers
   class Parser
-    ANTLERS_NODES = [
-      HTMLNode, # Match strings early.
-      IfNode,
-      ForNode,
-      FormNode,
-      PropNode,
-      SlotNode,
-      VarNode,
-      YieldNode,
-    ]
-
     class ParserError < StandardError; end
 
-    def initialize(namespace: nil)
+    def initialize(namespace: nil, node_types: nil)
       @namespace = namespace
+      @node_types = node_types || ANTLERS_NODES
     end
 
     def parse(sequence:, id: :root_node)
       branch(node: RootNode.new(name: id), sequence:)
     end
 
-    def branch(node:, sequence:) # rubocop:disable Metrics/AbcSize
+    def branch(node:, sequence:)
       until sequence.empty?
         segment = sequence.shift
 
-        child_class = ANTLERS_NODES.find { |n| n.match?(segment:) }
+        child_class = @node_types.find { |n| n.match?(segment:) }
         raise(ParserError, "No node matches #{segment}") unless child_class
 
         child = child_class.build(segment:, namespace: @namespace)
