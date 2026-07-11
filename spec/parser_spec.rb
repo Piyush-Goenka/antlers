@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/parser'
+require_relative '../lib/antlers/parser'
 require_relative '../lib/nodes/for_node'
 require_relative '../lib/nodes/prop_node'
 require_relative '../lib/nodes/root_node'

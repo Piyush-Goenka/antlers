@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../lib/lexer'
+require_relative '../lib/antlers/lexer'
 
 RSpec.describe Antlers::Lexer do
   subject(:lexer) { described_class.new }

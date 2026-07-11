@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'low_node'
-require 'antlers'
+require_relative '../../lib/antlers/antlers'
 
 module RBX
   class SlotNodeWithChild < LowNode

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require_relative 'lexemes/for_lexeme'
-require_relative 'lexemes/form_lexeme'
-require_relative 'lexemes/if_lexeme'
-require_relative 'lexemes/prop_lexeme'
-require_relative 'lexemes/slot_lexeme'
-require_relative 'lexemes/yield_lexeme'
-require_relative 'support/queries'
+require_relative '../lexemes/for_lexeme'
+require_relative '../lexemes/form_lexeme'
+require_relative '../lexemes/if_lexeme'
+require_relative '../lexemes/prop_lexeme'
+require_relative '../lexemes/slot_lexeme'
+require_relative '../lexemes/yield_lexeme'
+require_relative '../support/queries'
 
 module Antlers
   extend Queries
