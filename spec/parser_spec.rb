@@ -49,7 +49,13 @@ RSpec.describe Antlers::Parser do
         end
 
         let(:ast) do
-          ['<div class="', var_node, '">', prop_node, '</div>']
+          [
+            Antlers::HTMLNode.new(html: '<div class="'),
+            var_node,
+            Antlers::HTMLNode.new(html: '">'),
+            prop_node,
+            Antlers::HTMLNode.new(html: '</div>')
+          ]
         end
 
         it 'returns AST' do

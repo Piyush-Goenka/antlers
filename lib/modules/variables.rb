@@ -6,7 +6,7 @@ module Antlers
   module Variables
     extend Queries
 
-    # Evaluation limited to the following for security and to prevent a templating language becoming a programming language.
+    # Evaluation limited to the following for security and to stop a templating language becoming a programming language.
     #  1. An instance variable
     #  2. A method call/local variable
     #  3. A method chain

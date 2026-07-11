@@ -9,6 +9,9 @@ module Antlers
     include Props
     include Variables
 
+    DEF_KEY = :for_def
+    END_KEY = :for_end
+
     def initialize(name:, items:, value:, key: nil, props: [], children: [])
       super(name:, props:, children:)
 
@@ -28,12 +31,22 @@ module Antlers
         current_binding.local_variable_set(@key, key) if @key
 
         @children.each do |child|
-          # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.
-          output += (child.respond_to?(:render) ? child.render(current_binding:, parent_binding:, slot_node:) : child) || ''
+          output += child.render(current_binding:, parent_binding:, slot_node:) || ''
         end
       end
 
       output
+    end
+
+    class << self
+      def match?(segment:)
+        segment[DEF_KEY]
+      end
+
+      def build(segment:, **)
+        value, key, items = segment.values_at(DEF_KEY, :key, :in)
+        new(name: value, key:, value:, items:)
+      end
     end
   end
 end

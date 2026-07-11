@@ -11,7 +11,7 @@ require_relative 'support/queries'
 module Antlers
   extend Queries
 
-  class LexerParseError < StandardError; end
+  class LexerError < StandardError; end
 
   LEXEMES = [
     # FormLexeme must be ordered before ForLexeme for regex to work.
@@ -71,7 +71,7 @@ module Antlers
       return lexeme.lexeme(name:, props:, keywords:) if lexeme
       return var(antlers_segment:, raw: true) if deerheads?(segments:)
 
-      raise LexerParseError, "Unrecognised syntax: '#{antlers_segment}'"
+      raise LexerError, "Unrecognised syntax: '#{antlers_segment}'"
     end
 
     def parse_segment(antlers_segment:)
