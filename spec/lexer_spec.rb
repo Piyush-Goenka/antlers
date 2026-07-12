@@ -16,7 +16,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(["<div class=\"page-not-found\">\n  <em>404</em>\n</div>"])
+        expect(lexer.parse(template:)).to eq(["<div class=\"page-not-found\">\n  <em>404</em>\n</div>"])
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq([{ var: "I'm just a string" }])
+        expect(lexer.parse(template:)).to eq([{ var: "I'm just a string" }])
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq([{ var: '@ivar' }])
+        expect(lexer.parse(template:)).to eq([{ var: '@ivar' }])
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(sequence)
+        expect(lexer.parse(template:)).to eq(sequence)
       end
 
       context 'when wrapped in HTML' do
@@ -77,7 +77,7 @@ RSpec.describe Antlers::Lexer do
         end
 
         it 'returns sequence' do
-          expect(lexer.parse(template)).to eq(sequence)
+          expect(lexer.parse(template:)).to eq(sequence)
         end
       end
     end
@@ -96,7 +96,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(sequence)
+        expect(lexer.parse(template:)).to eq(sequence)
       end
 
       context 'with a hash' do
@@ -113,7 +113,7 @@ RSpec.describe Antlers::Lexer do
         end
 
         it 'returns sequence' do
-          expect(lexer.parse(template)).to eq(sequence)
+          expect(lexer.parse(template:)).to eq(sequence)
         end
       end
 
@@ -133,7 +133,7 @@ RSpec.describe Antlers::Lexer do
         end
 
         it 'returns sequence' do
-          expect(lexer.parse(template)).to eq(sequence)
+          expect(lexer.parse(template:)).to eq(sequence)
         end
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq(sequence)
+        expect(lexer.parse(template:)).to eq(sequence)
       end
     end
 
@@ -166,7 +166,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq([{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }])
+        expect(lexer.parse(template:)).to eq([{ slot_def: 'SlotNode' }, { prop: 'PropNode' }, { slot_end: 'SlotNode' }])
       end
     end
 
@@ -178,7 +178,7 @@ RSpec.describe Antlers::Lexer do
       end
 
       it 'returns sequence' do
-        expect(lexer.parse(template)).to eq([{ slot: :default }])
+        expect(lexer.parse(template:)).to eq([{ slot: :default }])
       end
     end
   end

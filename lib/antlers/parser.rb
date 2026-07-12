@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
-require_relative 'node_types'
+require_relative '../nodes/root_node'
+require_relative '../nodes/root_node'
+require_relative '../nodes/if_node'
+require_relative '../nodes/for_node'
+require_relative '../nodes/form_node'
+require_relative '../nodes/html_node'
+require_relative '../nodes/prop_node'
+require_relative '../nodes/slot_node'
+require_relative '../nodes/var_node'
+require_relative '../nodes/yield_node'
 
 module Antlers
   class Parser
@@ -8,7 +17,7 @@ module Antlers
 
     def initialize(namespace: nil, node_types: nil)
       @namespace = namespace
-      @node_types = node_types || ANTLERS_NODES
+      @node_types = node_types || ELEMENTS.node_types
     end
 
     def parse(sequence:, id: :root_node)

@@ -13,24 +13,15 @@ module Antlers
 
   class LexerError < StandardError; end
 
-  LEXEMES = [
-    # FormLexeme must be ordered before ForLexeme for regex to work.
-    FormLexeme,
-    ForLexeme,
-    IfLexeme,
-    PropLexeme,
-    SlotLexeme,
-    YieldLexeme,
-  ]
-
   class Lexer
-    def initialize
+    def initialize(lexeme_types: nil)
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = LEXEMES.flat_map { |lexeme| lexeme.const_get(:KEYWORDS) }
+      @lexeme_types = lexeme_types || ELEMENTS.lexeme_types
+      @keywords = @lexeme_types.flat_map { |lexeme| lexeme.const_get(:KEYWORDS) }
       @cursor = 0
     end
 
-    def parse(template)
+    def parse(template:)
       @cursor = 0
       sequence = []
 
@@ -67,7 +58,7 @@ module Antlers
 
       name, props, keywords = parse_segment(antlers_segment:)
 
-      lexeme = LEXEMES.find { it.match?(name:, keywords:) }
+      lexeme = @lexeme_types.find { it.match?(name:, keywords:) }
       return lexeme.lexeme(name:, props:, keywords:) if lexeme
       return var(antlers_segment:, raw: true) if deerheads?(segments:)
 
