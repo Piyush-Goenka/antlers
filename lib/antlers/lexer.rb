@@ -15,12 +15,12 @@ module Antlers
 
   LEXEMES = [
     # FormLexeme must be ordered before ForLexeme for regex to work.
-    Antlers::FormLexeme,
-    Antlers::ForLexeme,
-    Antlers::IfLexeme,
-    Antlers::PropLexeme,
-    Antlers::SlotLexeme,
-    Antlers::YieldLexeme,
+    FormLexeme,
+    ForLexeme,
+    IfLexeme,
+    PropLexeme,
+    SlotLexeme,
+    YieldLexeme,
   ]
 
   class Lexer
