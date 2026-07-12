@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'lexer'
-require_relative 'parser'
+require_relative 'antlers/lexer'
+require_relative 'antlers/parser'
+
+# These requires allow downstream libraries to build their own antlers nodes.
+require_relative 'interfaces/branch_node'
+require_relative 'interfaces/leaf_node'
 
 module Antlers
   class << self
