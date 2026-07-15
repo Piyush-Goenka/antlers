@@ -10,6 +10,7 @@ group :development do
   gem 'lowkey', path: '../lowkey'
   gem 'lowload', path: '../lowload'
   gem 'low_node', path: '../low_node'
+  gem 'plugs', path: '../plugs'
 
   gem 'irb'
   gem 'ostruct'

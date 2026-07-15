@@ -1,52 +1,102 @@
 # frozen_string_literal: true
 
+require 'plugs'
+
 module Antlers
-  module Elements
-    extend self
+  class Elements
+    include Plugs
 
-    def [](*elements, namespace: '::Antlers')
-      ElementSet.new(elements: elements.map { |name|
-        name = name.to_s
-        lexeme_type = class_reference(name:, namespace:, class_type: 'Lexeme')
-        node_type = class_reference(name:, namespace:, class_type: 'Node')
-
-        Element.new(lexeme_type:, node_type:)
-      })
-    end
-
-    class Element
-      attr_reader :lexeme_type, :node_type
-
-      def initialize(lexeme_type:, node_type:)
-        @lexeme_type = lexeme_type
-        @node_type = node_type
+    plug(:root) do
+      plug(:node) do
+        require_relative '../nodes/root_node'
+        RootNode
       end
     end
 
-    class ElementSet
-      def initialize(elements:)
-        @elements = elements
-      end
-
-      def lexeme_types
-        @elements.map { |e| e.lexeme_type }.compact
-      end
-
-      def node_types
-        @elements.map { |e| e.node_type }.compact
+    plug(:html) do
+      plug(:node) do
+        require_relative '../nodes/html_node'
+        HTMLNode
       end
     end
 
-    private
-
-    def class_reference(name:, namespace:, class_type:)
-      [name.capitalize, name.upcase].each do |n|
-        class_name = [namespace, "#{n}#{class_type}"].join('::')
-
-        return Object.const_get(class_name) if Object.const_defined?(class_name)
+    plug(:form) do
+      plug(:lexeme) do
+        require_relative '../lexemes/form_lexeme'
+        FormLexeme
       end
 
-      nil
+      plug(:node) do
+        require_relative '../nodes/form_node'
+        FormNode
+      end
+    end
+
+    plug(:for) do
+      plug(:lexeme) do
+        require_relative '../lexemes/for_lexeme'
+        ForLexeme
+      end
+
+      plug(:node) do
+        require_relative '../nodes/for_node'
+        ForNode
+      end
+    end
+
+    plug(:if) do
+      plug(:lexeme) do
+        require_relative '../lexemes/if_lexeme'
+        IfLexeme
+      end
+
+      plug(:node) do
+        require_relative '../nodes/if_node'
+        IfNode
+      end
+    end
+
+    plug(:prop) do
+      plug(:lexeme) do
+        require_relative '../lexemes/prop_lexeme'
+        PropLexeme
+      end
+
+      plug(:node) do
+        require_relative '../nodes/prop_node'
+        PropNode
+      end
+    end
+
+    plug(:slot) do
+      plug(:lexeme) do
+        require_relative '../lexemes/slot_lexeme'
+        SlotLexeme
+      end
+
+      plug(:node) do
+        require_relative '../nodes/slot_node'
+        SlotNode
+      end
+    end
+
+    plug(:yield) do
+      plug(:lexeme) do
+        require_relative '../lexemes/yield_lexeme'
+        YieldLexeme
+      end
+
+      plug(:node) do
+        require_relative '../nodes/yield_node'
+        YieldNode
+      end
+    end
+
+    plug(:var) do
+      plug(:node) do
+        require_relative '../nodes/var_node'
+        VarNode
+      end
     end
   end
 end

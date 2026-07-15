@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../lib/antlers/elements'
 require_relative '../lib/antlers/lexer'
 
 RSpec.describe Antlers::Lexer do
-  subject(:lexer) { described_class.new }
+  subject(:lexer) { described_class.new(lexeme_types:) }
+
+  let(:lexeme_types) { Antlers::Elements[:html, :form, :for, :if, :prop, :slot, :yield, :var][:lexeme].to_a }
 
   describe '.parse' do
     context 'when just HTML' do

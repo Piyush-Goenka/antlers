@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
+require_relative '../../lib/antlers/elements'
 require_relative '../../lib/antlers/parser'
-require_relative '../../lib/nodes/form_node'
 
 RSpec.describe 'Antlers::Parser: Form' do
-  subject(:parser) { Antlers::Parser.new }
+  subject(:parser) { Antlers::Parser.new(node_types:) }
+
+  let(:node_types) { Antlers::Elements[:html, :form, :for][:node].to_a }
 
   context 'with basic form' do
     let(:sequence) do

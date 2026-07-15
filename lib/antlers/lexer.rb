@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../lexemes/for_lexeme'
-require_relative '../lexemes/form_lexeme'
-require_relative '../lexemes/if_lexeme'
-require_relative '../lexemes/prop_lexeme'
-require_relative '../lexemes/slot_lexeme'
-require_relative '../lexemes/yield_lexeme'
 require_relative '../support/queries'
 
 module Antlers
@@ -14,9 +8,9 @@ module Antlers
   class LexerError < StandardError; end
 
   class Lexer
-    def initialize(lexeme_types: nil)
+    def initialize(lexeme_types:)
       @delimiters = ['<{', '}>', '{', '}']
-      @lexeme_types = lexeme_types || ELEMENTS.lexeme_types
+      @lexeme_types = lexeme_types
       @keywords = @lexeme_types.flat_map { |lexeme| lexeme.const_get(:KEYWORDS) }
       @cursor = 0
     end
