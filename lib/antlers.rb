@@ -9,7 +9,7 @@ require_relative 'interfaces/branch_node'
 require_relative 'interfaces/leaf_node'
 
 module Antlers
-  DEFAULT_ELEMENTS = [:html, :form, :for, :if, :prop, :slot, :yield, :var]
+  DEFAULT_ELEMENTS = [:root, :html, :form, :for, :if, :prop, :slot, :yield, :var]
 
   class << self
     def ast(template:, namespace: nil, elements: Elements[*DEFAULT_ELEMENTS])
