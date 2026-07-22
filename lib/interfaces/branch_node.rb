@@ -16,8 +16,7 @@ module Antlers
       output = ''
 
       @children.each do |child|
-        # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.
-        output += (child.respond_to?(:render) ? child.render(current_binding:, parent_binding:, slot_node:) : child) || ''
+        output += child.render(current_binding:, parent_binding:, slot_node:) || ''
       end
 
       output

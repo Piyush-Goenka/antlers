@@ -7,7 +7,10 @@ require_relative '../modules/props'
 module Antlers
   class SlotNode < BranchNode
     include Namespace
-    include Props # Immediate parent ancestor which props are passed to.
+    include Props # The immediate ancestor which props are passed to.
+
+    DEF_KEY = :slot_def
+    END_KEY = :slot_end
 
     attr_accessor :children
 
@@ -29,6 +32,20 @@ module Antlers
       return instance.render_template(event:, parent_binding: current_binding, slot_node: self, props:) if klass.template
 
       props.empty? ? instance.render(event:) : instance.render(event:, **props)
+    end
+
+    def end_name
+      @name
+    end
+
+    class << self
+      def match?(segment:)
+        segment[DEF_KEY]
+      end
+
+      def build(segment:, namespace:)
+        new(name: segment[DEF_KEY], props: segment[:props], namespace:)
+      end
     end
   end
 end

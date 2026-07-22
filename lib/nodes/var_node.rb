@@ -25,5 +25,15 @@ module Antlers
 
       ERB::Util.html_escape(result)
     end
+
+    class << self
+      def match?(segment:)
+        segment[:var] || segment[:raw_var]
+      end
+
+      def build(segment:, **)
+        new(value: segment[:var] || segment[:raw_var], raw: !!segment[:raw_var])
+      end
+    end
   end
 end

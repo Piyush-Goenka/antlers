@@ -9,6 +9,9 @@ module Antlers
     include Props
     include Variables
 
+    DEF_KEY = :form_def
+    END_KEY = :form_end
+
     def initialize(name:, action: nil, method: 'POST', props: [], children: [])
       super(name:, props:, children:)
 
@@ -20,12 +23,24 @@ module Antlers
       output = "<form action='#{@action}' method='#{@method}'>"
 
       @children.each do |child|
-        # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.
-        output += (child.respond_to?(:render) ? child.render(current_binding:, parent_binding:, slot_node:) : child) || ''
+        output += child.render(current_binding:, parent_binding:, slot_node:) || ''
       end
 
       output += '</form>'
       output
+    end
+
+    class << self
+      def match?(segment:)
+        segment[DEF_KEY]
+      end
+
+      def build(segment:, **)
+        action, method = segment.values_at(DEF_KEY, :method)
+        return new(name: action, action:, method:) if method
+
+        new(name: action, action:)
+      end
     end
   end
 end

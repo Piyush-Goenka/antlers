@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 
-require_relative '../lib/parser'
-require_relative '../lib/nodes/for_node'
-require_relative '../lib/nodes/prop_node'
-require_relative '../lib/nodes/root_node'
-require_relative '../lib/nodes/slot_node'
-require_relative '../lib/nodes/var_node'
-require_relative '../lib/nodes/yield_node'
+require_relative '../lib/antlers/elements'
+require_relative '../lib/antlers/parser'
 
 RSpec.describe Antlers::Parser do
-  subject(:parser) { described_class.new }
+  subject(:parser) { described_class.new(node_types:) }
 
+  let(:node_types) { Antlers::Elements[:html, :for, :prop, :slot, :var, :yield][:node].to_a }
   let(:var_node) { Antlers::VarNode.new(value: "I'm just a string") }
   let(:prop_node) { Antlers::PropNode.new(name: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil }) }
 
@@ -49,7 +45,13 @@ RSpec.describe Antlers::Parser do
         end
 
         let(:ast) do
-          ['<div class="', var_node, '">', prop_node, '</div>']
+          [
+            Antlers::HTMLNode.new(html: '<div class="'),
+            var_node,
+            Antlers::HTMLNode.new(html: '">'),
+            prop_node,
+            Antlers::HTMLNode.new(html: '</div>')
+          ]
         end
 
         it 'returns AST' do

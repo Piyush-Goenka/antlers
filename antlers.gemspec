@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'lib/version'
+require_relative 'lib/antlers/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'antlers'
@@ -28,7 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'erb'
   spec.add_dependency 'low_event'
   spec.add_dependency 'lowkey'
-
-  # For more information and examples about making a new gem, check out our
-  # guide at: https://bundler.io/guides/creating_gem.html
+  spec.add_dependency 'plugs'
 end

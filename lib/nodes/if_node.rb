@@ -9,6 +9,9 @@ module Antlers
     include Props
     include Variables
 
+    DEF_KEY = :if_def
+    END_KEY = :if_end
+
     def initialize(name:, value:, props: [], children: [])
       super(name:, props:, children:)
 
@@ -20,12 +23,21 @@ module Antlers
 
       if evaluate(name: @value, current_binding:)
         @children.each do |child|
-          # Antlers nodes respond to "render", whereas HTML is stored as a string and output as is.
-          output += (child.respond_to?(:render) ? child.render(current_binding:, parent_binding:, slot_node:) : child) || ''
+          output += child.render(current_binding:, parent_binding:, slot_node:) || ''
         end
       end
 
       output
+    end
+
+    class << self
+      def match?(segment:)
+        segment[DEF_KEY]
+      end
+
+      def build(segment:, **)
+        new(name: segment[DEF_KEY], value: segment[DEF_KEY])
+      end
     end
   end
 end

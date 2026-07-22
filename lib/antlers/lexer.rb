@@ -1,36 +1,21 @@
 # frozen_string_literal: true
 
-require_relative 'lexemes/for_lexeme'
-require_relative 'lexemes/form_lexeme'
-require_relative 'lexemes/if_lexeme'
-require_relative 'lexemes/prop_lexeme'
-require_relative 'lexemes/slot_lexeme'
-require_relative 'lexemes/yield_lexeme'
-require_relative 'support/queries'
+require_relative '../support/queries'
 
 module Antlers
   extend Queries
 
-  class LexerParseError < StandardError; end
-
-  LEXEMES = [
-    # FormLexeme must be ordered before ForLexeme for regex to work.
-    Antlers::FormLexeme,
-    Antlers::ForLexeme,
-    Antlers::IfLexeme,
-    Antlers::PropLexeme,
-    Antlers::SlotLexeme,
-    Antlers::YieldLexeme,
-  ]
+  class LexerError < StandardError; end
 
   class Lexer
-    def initialize
+    def initialize(lexeme_types:)
       @delimiters = ['<{', '}>', '{', '}']
-      @keywords = LEXEMES.flat_map { |lexeme| lexeme.const_get(:KEYWORDS) }
+      @lexeme_types = lexeme_types
+      @keywords = @lexeme_types.flat_map { |lexeme| lexeme.const_get(:KEYWORDS) }
       @cursor = 0
     end
 
-    def parse(template)
+    def parse(template:)
       @cursor = 0
       sequence = []
 
@@ -67,11 +52,11 @@ module Antlers
 
       name, props, keywords = parse_segment(antlers_segment:)
 
-      lexeme = LEXEMES.find { it.match?(name:, keywords:) }
+      lexeme = @lexeme_types.find { it.match?(name:, keywords:) }
       return lexeme.lexeme(name:, props:, keywords:) if lexeme
       return var(antlers_segment:, raw: true) if deerheads?(segments:)
 
-      raise LexerParseError, "Unrecognised syntax: '#{antlers_segment}'"
+      raise LexerError, "Unrecognised syntax: '#{antlers_segment}'"
     end
 
     def parse_segment(antlers_segment:)

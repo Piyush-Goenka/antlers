@@ -30,6 +30,16 @@ module Antlers
       render_args(class_proxy:, instance:, event:, props:)
     end
 
+    class << self
+      def match?(segment:)
+        segment[:prop]
+      end
+
+      def build(segment:, namespace:)
+        new(name: segment[:prop], props: segment[:props], namespace:)
+      end
+    end
+
     private
 
     def create_instance(class_proxy:, klass:, event:, props:)

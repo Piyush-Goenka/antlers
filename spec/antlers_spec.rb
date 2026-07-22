@@ -6,7 +6,7 @@ RSpec.describe Antlers do
   subject(:antlers) { described_class }
 
   describe '.ast' do
-    let(:parser) { Antlers::Parser.new }
+    let(:parser) { Antlers::Parser.new(node_types: []) }
 
     before do
       allow(Antlers::Parser).to receive(:new).and_return(parser)

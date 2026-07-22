@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative '../../lib/nodes/prop_node'
-require_relative '../fixtures/prop_node'
-LowLoad.lowload('spec/fixtures/prop_node.rbx')
+require_relative '../fixtures/props/prop_node'
+LowLoad.lowload('spec/fixtures/props/prop_node.rbx')
 
 # Render an Antlers node, which renders its corresponding named LowNode, which renders its Antlers template.
 RSpec.describe Antlers::PropNode do
