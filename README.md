@@ -149,9 +149,8 @@ Antlers uses two different sets of start and stop characters:
 - 🖇 **Brackets:** `{` and `}`
 
 > [!note]
-> The `{}` brackets syntax only renders variables and escapes HTML.
-
-You can output [variables](#variables) with the Deerhead syntax too (`<{ @instance_var }>` and `<{ local_var }>`) without escaping HTML.
+> The `{}` Brackets syntax **escapes** HTML and can only render variables.  
+> Use the `<{}>` Deerheads syntax to render variables without escaping HTML.
 
 Unlike other templating languages which use syntax to distinguish between control flow and output, there is no difference in Antlers. In Antlers all constructs internally render output, even if that output is an empty string (`''`).
 
