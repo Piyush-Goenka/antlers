@@ -43,7 +43,7 @@ module Antlers
         segment[DEF_KEY]
       end
 
-      def build(segment:, namespace:)
+      def build(segment:, namespace:, **)
         new(name: segment[DEF_KEY], props: segment[:props], namespace:)
       end
     end

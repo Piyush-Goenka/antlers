@@ -4,12 +4,15 @@ module Antlers
   class Parser
     class ParserError < StandardError; end
 
-    def initialize(namespace: nil, node_types:)
-      @namespace = namespace
+    def initialize(node_types:, namespace: nil)
       @node_types = node_types
+      @namespace = namespace
+      @template = nil
     end
 
-    def parse(sequence:, id: :root_node)
+    def parse(sequence:, template: nil, id: :root_node)
+      @template = template
+
       branch(node: RootNode.new(name: id), sequence:)
     end
 
@@ -20,7 +23,7 @@ module Antlers
         child_class = @node_types.find { |n| n.match?(segment:) }
         raise(ParserError, "No node matches #{segment}") unless child_class
 
-        child = child_class.build(segment:, namespace: @namespace)
+        child = child_class.build(segment:, namespace: @namespace, template: @template)
         node.children << child
 
         if (end_key = child_class::END_KEY)
