@@ -8,10 +8,8 @@ module Antlers
 
     plug(:root) do
       plug(:node) do
-        lazy do
-          require_relative '../nodes/root_node'
-          RootNode
-        end
+        require_relative '../nodes/root_node'
+        RootNode
       end
     end
 
