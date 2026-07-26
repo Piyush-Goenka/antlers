@@ -5,7 +5,7 @@ module Antlers
     class ParserError < StandardError; end
 
     def initialize(node_types:, namespace: nil)
-      @node_types = node_types
+      @node_types = node_types.to_a
       @namespace = namespace
       @template = nil
     end

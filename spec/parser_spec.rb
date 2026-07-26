@@ -6,7 +6,7 @@ require_relative '../lib/antlers/parser'
 RSpec.describe Antlers::Parser do
   subject(:parser) { described_class.new(node_types:) }
 
-  let(:node_types) { Antlers::Elements[:html, :for, :prop, :slot, :var, :yield][:node].to_a }
+  let(:node_types) { Antlers::Elements[:html, :for, :prop, :slot, :var, :yield][:node] }
   let(:var_node) { Antlers::VarNode.new(value: "I'm just a string") }
   let(:prop_node) { Antlers::PropNode.new(name: 'PropNode', props: { prop_with_val: 'mock_val', prop_without_val: nil }) }
 

@@ -13,8 +13,8 @@ module Antlers
 
   class << self
     def ast(template:, namespace: nil, elements: Elements[*DEFAULT_ELEMENTS])
-      sequence = Lexer.new(lexeme_types: elements[:lexeme].to_a).parse(template:)
-      Parser.new(namespace:, node_types: elements[:node].to_a).parse(sequence:, template:)
+      sequence = Lexer.new(lexeme_types: elements[:lexeme]).parse(template:)
+      Parser.new(namespace:, node_types: elements[:node]).parse(sequence:, template:)
     end
 
     def render(ast:, current_binding:, parent_binding: nil, slot_node: nil)

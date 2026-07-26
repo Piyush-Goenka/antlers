@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require_relative '../lib/antlers'
+require_relative '../lib/antlers/elements'
 
 RSpec.describe Antlers do
   subject(:antlers) { described_class }
 
   describe '.ast' do
-    let(:parser) { Antlers::Parser.new(node_types: []) }
+    let(:parser) { Antlers::Parser.new(node_types: Antlers::Elements.new(plugs: {}, keys: {})) }
 
     before do
       allow(Antlers::Parser).to receive(:new).and_return(parser)

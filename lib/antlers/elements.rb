@@ -125,6 +125,13 @@ module Antlers
           VarNode
         end
       end
+
+      plug(:lexeme) do
+        lazy do
+          require_relative '../lexemes/var_lexeme'
+          VarLexeme
+        end
+      end
     end
   end
 end

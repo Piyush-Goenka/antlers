@@ -6,7 +6,7 @@ module Antlers
 
     def match?(name: nil, keywords: {}) = false
 
-    def lexeme(name:, props:, keywords:)
+    def lexeme(name:, props:, keywords:, segment: nil, raw: false)
       raise NotImplementedError
     end
   end

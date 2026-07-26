@@ -6,7 +6,7 @@ require_relative '../../lib/antlers/parser'
 RSpec.describe 'Antlers::Parser: Form' do
   subject(:parser) { Antlers::Parser.new(node_types:) }
 
-  let(:node_types) { Antlers::Elements[:html, :form, :for][:node].to_a }
+  let(:node_types) { Antlers::Elements[:html, :form, :for][:node] }
 
   context 'with basic form' do
     let(:sequence) do
