@@ -14,7 +14,7 @@ module Antlers
 
     attr_accessor :children
 
-    def initialize(name:, namespace:, props: [], children: [], **)
+    def initialize(name:, namespace:, props: {}, children: [], **)
       super(name:, props:, children:)
 
       @namespace = namespace
