@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'low_node'
-require_relative '../../lib/antlers'
+require_relative '../../../lib/antlers'
 
 module RBX
   class SlotNodeWithChild < LowNode
@@ -9,11 +9,10 @@ module RBX
       @ivar = 'Parent Variable'
     end
 
-    # Passes in prop from this instance, not from YieldNode.
     def render
-      <{ YieldNode: }>
+      <{ LayoutNode: }>
         <{ PropNodeVar var=@ivar }>
-      <{ :YieldNode }>
+      <{ :LayoutNode }>
     end
   end
 end
