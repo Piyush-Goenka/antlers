@@ -14,9 +14,6 @@ RSpec.describe RBX::SlotNodeWithChild do
 
   describe '#render' do
     context 'when slot has a prop node' do
-      subject(:slot_node) { Antlers::SlotNode.new(name: 'RBX::LayoutNode', children: [prop_node], namespace:) }
-      subject(:prop_node) { Antlers::PropNode.new(name: 'RBX::PropNodeVar', namespace:) }
-
       it 'renders both slot and prop node' do
         expect(parent_node.render.response.body.read).to eq('<html><strong>Parent Variable</strong></html>')
       end
