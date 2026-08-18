@@ -5,7 +5,7 @@ require_relative '../../lib/nodes/slot_node'
 
 LowLoad.lowload('spec/fixtures/slot_node_with_child.rbx')
 LowLoad.lowload('spec/fixtures/props/prop_node_var.rbx')
-LowLoad.lowload('spec/fixtures/yield_node.rbx')
+LowLoad.lowload('spec/fixtures/layout_node.rbx')
 
 RSpec.describe RBX::SlotNodeWithChild do
   subject(:parent_node) { described_class }
@@ -14,7 +14,7 @@ RSpec.describe RBX::SlotNodeWithChild do
 
   describe '#render' do
     context 'when slot has a prop node' do
-      subject(:slot_node) { Antlers::SlotNode.new(name: 'RBX::YieldNode', children: [prop_node], namespace:) }
+      subject(:slot_node) { Antlers::SlotNode.new(name: 'RBX::LayoutNode', children: [prop_node], namespace:) }
       subject(:prop_node) { Antlers::PropNode.new(name: 'RBX::PropNodeVar', namespace:) }
 
       it 'renders both slot and prop node' do

@@ -3,7 +3,7 @@
 require 'low_node'
 
 module RBX
-  class YieldNode < LowNode
+  class LayoutNode < LowNode
     def render
       <html>
         <{ :slot }>
