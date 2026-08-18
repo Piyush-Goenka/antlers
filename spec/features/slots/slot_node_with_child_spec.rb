@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/nodes/prop_node'
-require_relative '../../lib/nodes/slot_node'
+require_relative '../../../lib/nodes/prop_node'
+require_relative '../../../lib/nodes/slot_node'
 
 LowLoad.lowload('spec/fixtures/slots/slot_node_with_child.rbx')
 LowLoad.lowload('spec/fixtures/props/prop_node_var.rbx')
